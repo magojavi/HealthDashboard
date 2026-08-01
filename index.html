@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Mis Estadísticas"/>
+<meta name="theme-color" content="#0A0A0F"/>
+<link rel="apple-touch-icon" href="icon.png"/>
+<title>Mis Estadísticas · 2014–2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0A0F;color:#E8E8F0;font-family:'Space Mono',monospace;min-height:100vh}
+:root{--run:#FF6B35;--bike:#4ECDC4;--swim:#45B7D1;--accent:#FFE66D;--bg:#0A0A0F;--card:#13131A;--border:#1E1E2E;--muted:#6B6B8A;--endo:#A78BFA;--weight:#FF6BAE}
+.header{background:linear-gradient(180deg,#13131A,#0A0A0F);border-bottom:1px solid var(--border);padding:26px 32px 0}
+.header-inner{max-width:1120px;margin:0 auto}
+h1{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 4px}
+.source-tags{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.tag{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:700}
+.tag-endo{background:rgba(167,139,250,0.2);color:var(--endo)}
+.tag-garmin{background:rgba(78,205,196,0.2);color:var(--bike)}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:18px}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.hero-stat{padding:10px 16px;background:var(--border);border-radius:10px;text-align:center}
+.hero-stat .val{font-size:20px;font-weight:700}
+.hero-stat .lbl{color:var(--muted);font-size:10px;margin-top:2px}
+.tabs{display:flex;gap:2px}
+.tab{background:transparent;color:var(--muted);border:none;cursor:pointer;padding:10px 20px;font-size:12px;font-weight:700;font-family:'Space Mono',monospace;border-radius:8px 8px 0 0;transition:all .15s}
+.tab.active{background:var(--accent);color:#000}
+.content{max-width:1120px;margin:28px auto 60px;padding:0 32px}
+.panel{display:none}.panel.active{display:flex;flex-direction:column;gap:22px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px}
+.card-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;margin-bottom:20px}
+.sport-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.sport-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px}
+.sport-card .icon{font-size:26px;margin-bottom:8px}
+.sport-card .name{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;margin-bottom:14px}
+.sport-card .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat-lbl{color:var(--muted);font-size:10px;margin-bottom:2px}
+.stat-val{font-size:16px;font-weight:700}
+.pills{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.pill{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px}
+.pill-lbl{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.pill-val{font-size:26px;font-weight:700}
+.records-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.rec-card{background:#0A0A14;border:1px solid var(--border);border-radius:10px;padding:16px 14px}
+.rec-dist{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:10px}
+.rec-time{font-size:24px;font-weight:700;color:var(--accent);margin-bottom:6px}
+.rec-sub{color:var(--muted);font-size:10px;margin-bottom:2px}
+.rec-src{font-size:9px;padding:2px 5px;border-radius:3px;font-weight:700;display:inline-block;margin-top:4px}
+.cyc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cyc-card{background:#0A0A14;border:1px solid var(--border);border-radius:10px;padding:20px}
+.cyc-hl{font-size:28px;font-weight:700;color:var(--accent);margin-bottom:12px}
+.cyc-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.swim-row{display:flex;align-items:center;gap:16px;background:#0A0A14;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:8px}
+.swim-rank{color:var(--muted);font-size:20px;font-weight:700;min-width:32px}
+.swim-dist{font-size:24px;font-weight:700}
+.swim-right{text-align:right}
+.chart-wrap{position:relative;height:260px}
+.chart-wrap-sm{position:relative;height:220px}
+.metric-btns{display:flex;gap:8px}
+.metric-btn{background:var(--border);color:var(--muted);border:none;cursor:pointer;padding:5px 12px;font-size:11px;font-weight:700;font-family:'Space Mono',monospace;border-radius:6px}
+.metric-btn.active{background:var(--accent);color:#000}
+.chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead tr{background:var(--border)}
+th{padding:10px 12px;text-align:left;color:var(--muted);font-size:10px;letter-spacing:.05em;white-space:nowrap}
+th.r,td.r{text-align:right}
+tbody tr{border-top:1px solid var(--border)}
+tbody tr:nth-child(even){background:#0F0F1A}
+tbody tr:nth-child(odd){background:var(--card)}
+td{padding:9px 12px}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.legend-box{width:10px;height:10px;border-radius:2px}
+.chat-wrap{display:flex;flex-direction:column;height:560px}
+.chat-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 2px}
+.msg{max-width:80%;padding:12px 15px;border-radius:12px;font-size:12.5px;line-height:1.55;white-space:pre-wrap}
+.msg-user{align-self:flex-end;background:var(--accent);color:#000;border-bottom-right-radius:3px}
+.msg-bot{align-self:flex-start;background:var(--card);border:1px solid var(--border);border-bottom-left-radius:3px}
+.msg-bot.loading{color:var(--muted)}
+.chat-input-row{display:flex;gap:8px;margin-top:14px}
+.chat-input-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:#E8E8F0;font-family:'Space Mono',monospace;font-size:13px}
+.chat-input-row input:focus{outline:none;border-color:var(--accent)}
+.chat-input-row button{background:var(--accent);color:#000;border:none;border-radius:10px;padding:0 20px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;font-size:12px}
+.chat-input-row button:disabled{opacity:.5;cursor:default}
+.suggestions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.sugg{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:20px;font-size:11px;cursor:pointer}
+.sugg:hover{border-color:var(--accent);color:var(--accent)}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cal-nav{display:flex;gap:8px;align-items:center}
+.cal-nav button{background:var(--border);color:var(--text,#E8E8F0);border:none;cursor:pointer;padding:6px 12px;border-radius:6px;font-family:'Space Mono',monospace;font-weight:700}
+.cal-nav button:hover{background:var(--accent);color:#000}
+.cal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-dow{color:var(--muted);font-size:9px;text-align:center;padding:4px 0;letter-spacing:.05em}
+.cal-day{aspect-ratio:1;background:#0A0A14;border:1px solid var(--border);border-radius:6px;padding:4px;cursor:pointer;display:flex;flex-direction:column;font-size:10px;position:relative;transition:border-color .1s}
+.cal-day:hover{border-color:var(--accent)}
+.cal-day.empty{background:transparent;border:none;cursor:default}
+.cal-day.selected{border-color:var(--accent);border-width:2px}
+.cal-daynum{color:var(--muted);font-weight:700}
+.cal-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:auto}
+.cal-dot{width:6px;height:6px;border-radius:50%}
+.day-detail{margin-top:8px}
+.day-detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
+.day-detail-row:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-inner">
+    <div class="source-tags">
+      <div class="dot" style="background:var(--accent);box-shadow:0 0 10px var(--accent)"></div>
+      <span class="tag tag-endo">ENDOMONDO 2014–2016</span>
+      <span class="tag tag-garmin">GARMIN 2016–2026</span>
+    </div>
+    <h1>Mis Estadísticas</h1>
+    <p class="subtitle">2014–2026 · 1.159 actividades · 15.601 km · 1.149 horas</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="val" style="color:var(--accent)">15.601 km</div><div class="lbl">Distancia total</div></div>
+      <div class="hero-stat"><div class="val" style="color:var(--run)">1.159</div><div class="lbl">Actividades</div></div>
+      <div class="hero-stat"><div class="val" style="color:var(--bike)">1.149 h</div><div class="lbl">Horas totales</div></div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('overview')">OVERVIEW</button>
+      <button class="tab" onclick="showTab('running')">RUNNING</button>
+      <button class="tab" onclick="showTab('cycling')">CICLISMO</button>
+      <button class="tab" onclick="showTab('swimming')">NATACIÓN</button>
+      <button class="tab" onclick="showTab('weight')">PESO</button>
+      <button class="tab" onclick="showTab('sleep')">SUEÑO</button>
+      <button class="tab" onclick="showTab('calendar')">CALENDARIO</button>
+      <button class="tab" onclick="showTab('history')">HISTÓRICO</button>
+      <button class="tab" onclick="showTab('ask')">💬 PREGÚNTAME</button>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- OVERVIEW -->
+<div id="panel-overview" class="panel active">
+  <div class="sport-grid">
+    <div class="sport-card" style="border-top:3px solid var(--run)">
+      <div class="icon">🏃</div>
+      <div class="name" style="color:var(--run)">Running</div>
+      <div class="stats">
+        <div><div class="stat-lbl">Kilómetros</div><div class="stat-val">8.384 km</div></div>
+        <div><div class="stat-lbl">Horas</div><div class="stat-val">750 h</div></div>
+        <div><div class="stat-lbl">Actividades</div><div class="stat-val">803</div></div>
+        <div><div class="stat-lbl">Media</div><div class="stat-val">10.4 km</div></div>
+      </div>
+    </div>
+    <div class="sport-card" style="border-top:3px solid var(--bike)">
+      <div class="icon">🚴</div>
+      <div class="name" style="color:var(--bike)">Ciclismo</div>
+      <div class="stats">
+        <div><div class="stat-lbl">Kilómetros</div><div class="stat-val">6.999 km</div></div>
+        <div><div class="stat-lbl">Horas</div><div class="stat-val">303 h</div></div>
+        <div><div class="stat-lbl">Actividades</div><div class="stat-val">198</div></div>
+        <div><div class="stat-lbl">Media</div><div class="stat-val">35.4 km</div></div>
+      </div>
+    </div>
+    <div class="sport-card" style="border-top:3px solid var(--swim)">
+      <div class="icon">🏊</div>
+      <div class="name" style="color:var(--swim)">Natación</div>
+      <div class="stats">
+        <div><div class="stat-lbl">Kilómetros</div><div class="stat-val">218 km</div></div>
+        <div><div class="stat-lbl">Horas</div><div class="stat-val">96 h</div></div>
+        <div><div class="stat-lbl">Actividades</div><div class="stat-val">158</div></div>
+        <div><div class="stat-lbl">Media</div><div class="stat-val">1.379 m</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="chart-header">
+      <div class="card-title" style="margin:0">Kilómetros por año y deporte</div>
+      <div class="metric-btns">
+        <button class="metric-btn active" id="btn-km" onclick="switchMetric('km')">KM</button>
+        <button class="metric-btn" id="btn-h" onclick="switchMetric('h')">HORAS</button>
+      </div>
+    </div>
+    <div class="chart-wrap"><canvas id="chart-overview"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Evolución histórica 2014–2026</div>
+    <div class="chart-wrap"><canvas id="chart-line"></canvas></div>
+  </div>
+</div>
+
+<!-- RUNNING -->
+<div id="panel-running" class="panel">
+  <div class="pills">
+    <div class="pill" style="border-left:3px solid var(--run)"><div class="pill-lbl">Total km</div><div class="pill-val" style="color:var(--run)">8.384 km</div></div>
+    <div class="pill" style="border-left:3px solid var(--run)"><div class="pill-lbl">Total horas</div><div class="pill-val" style="color:var(--run)">750 h</div></div>
+    <div class="pill" style="border-left:3px solid var(--run)"><div class="pill-lbl">Actividades</div><div class="pill-val" style="color:var(--run)">803</div></div>
+    <div class="pill" style="border-left:3px solid var(--run)"><div class="pill-lbl">Media por salida</div><div class="pill-val" style="color:var(--run)">10.4 km</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:var(--run)">🏆 Records personales</div>
+    <p style="color:var(--muted);font-size:11px;margin:-14px 0 18px">Ritmo medio de la mejor actividad que cubre cada distancia</p>
+    <div class="records-grid">
+      <div class="rec-card" style="border-top:2px solid var(--run)">
+        <div class="rec-dist" style="color:var(--run)">1 km</div>
+        <div class="rec-time">3m 56s</div>
+        <div class="rec-sub">Ritmo 3:56 /km</div>
+        <div class="rec-sub">19/08/2019 · 3km act.</div>
+        <span class="rec-src" style="background:rgba(167,139,250,0.2);color:var(--endo)">Endomondo</span>
+      </div>
+      <div class="rec-card" style="border-top:2px solid var(--run)">
+        <div class="rec-dist" style="color:var(--run)">5 km</div>
+        <div class="rec-time">21m 12s</div>
+        <div class="rec-sub">Ritmo 4:14 /km</div>
+        <div class="rec-sub">31/12/2016 · 10km act.</div>
+        <span class="rec-src" style="background:rgba(167,139,250,0.2);color:var(--endo)">Endomondo</span>
+      </div>
+      <div class="rec-card" style="border-top:2px solid var(--run)">
+        <div class="rec-dist" style="color:var(--run)">10 km</div>
+        <div class="rec-time">42m 24s</div>
+        <div class="rec-sub">Ritmo 4:14 /km</div>
+        <div class="rec-sub">31/12/2016 · 10km act.</div>
+        <span class="rec-src" style="background:rgba(167,139,250,0.2);color:var(--endo)">Endomondo</span>
+      </div>
+      <div class="rec-card" style="border-top:2px solid var(--run)">
+        <div class="rec-dist" style="color:var(--run)">21 km</div>
+        <div class="rec-time">1h 41m 21s</div>
+        <div class="rec-sub">Ritmo 4:48 /km</div>
+        <div class="rec-sub">12/12/2015 · 22km act.</div>
+        <span class="rec-src" style="background:rgba(167,139,250,0.2);color:var(--endo)">Endomondo</span>
+      </div>
+      <div class="rec-card" style="border-top:2px solid var(--run)">
+        <div class="rec-dist" style="color:var(--run)">42 km</div>
+        <div class="rec-time">3h 25m 42s</div>
+        <div class="rec-sub">Ritmo 4:52 /km · 181bpm</div>
+        <div class="rec-sub">29/09/2019 · 42.2km</div>
+        <span class="rec-src" style="background:rgba(78,205,196,0.2);color:var(--bike)">Maratón Berlín</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Km y horas por año</div>
+    <div class="chart-wrap"><canvas id="chart-run"></canvas></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table>
+      <thead><tr><th>Año</th><th>Fuente</th><th class="r">Km</th><th class="r">Horas</th><th class="r">Salidas</th><th class="r">Km/salida</th></tr></thead>
+      <tbody id="table-run"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CYCLING -->
+<div id="panel-cycling" class="panel">
+  <div class="pills">
+    <div class="pill" style="border-left:3px solid var(--bike)"><div class="pill-lbl">Total km</div><div class="pill-val" style="color:var(--bike)">6.999 km</div></div>
+    <div class="pill" style="border-left:3px solid var(--bike)"><div class="pill-lbl">Total horas</div><div class="pill-val" style="color:var(--bike)">303 h</div></div>
+    <div class="pill" style="border-left:3px solid var(--bike)"><div class="pill-lbl">Actividades</div><div class="pill-val" style="color:var(--bike)">198</div></div>
+    <div class="pill" style="border-left:3px solid var(--bike)"><div class="pill-lbl">Media por salida</div><div class="pill-val" style="color:var(--bike)">35.4 km</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:var(--bike)">🏆 Records en bici</div>
+    <div class="cyc-grid">
+      <div class="cyc-card" style="border-top:2px solid var(--bike)">
+        <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Salida más larga</div>
+        <div class="cyc-hl">152.1 km</div>
+        <div class="cyc-stats">
+          <div><div class="stat-lbl">Vel. media</div><div class="stat-val" style="font-size:13px">25.7 km/h</div></div>
+          <div><div class="stat-lbl">Vel. máx</div><div class="stat-val" style="font-size:13px">61.3 km/h</div></div>
+          <div><div class="stat-lbl">Duración</div><div class="stat-val" style="font-size:13px">5.9 h</div></div>
+          <div><div class="stat-lbl">FC media</div><div class="stat-val" style="font-size:13px">144 bpm</div></div>
+        </div>
+        <div style="color:var(--muted);font-size:10px;margin-top:10px">12/05/2024</div>
+      </div>
+      <div class="cyc-card" style="border-top:2px solid var(--bike)">
+        <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Velocidad media más alta</div>
+        <div class="cyc-hl">36.3 km/h</div>
+        <div class="cyc-stats">
+          <div><div class="stat-lbl">Distancia</div><div class="stat-val" style="font-size:13px">39.9 km</div></div>
+          <div><div class="stat-lbl">Vel. máx</div><div class="stat-val" style="font-size:13px">44.4 km/h</div></div>
+          <div><div class="stat-lbl">Duración</div><div class="stat-val" style="font-size:13px">1.1 h</div></div>
+          <div><div class="stat-lbl">FC media</div><div class="stat-val" style="font-size:13px">— bpm</div></div>
+        </div>
+        <div style="color:var(--muted);font-size:10px;margin-top:10px">04/06/2023</div>
+      </div>
+      <div class="cyc-card" style="border-top:2px solid var(--bike)">
+        <div style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Velocidad punta</div>
+        <div class="cyc-hl">82.7 km/h</div>
+        <div class="cyc-stats">
+          <div><div class="stat-lbl">Distancia</div><div class="stat-val" style="font-size:13px">3.4 km</div></div>
+          <div><div class="stat-lbl">Vel. media</div><div class="stat-val" style="font-size:13px">28.1 km/h</div></div>
+          <div><div class="stat-lbl">Duración</div><div class="stat-val" style="font-size:13px">0.1 h</div></div>
+          <div><div class="stat-lbl">—</div><div class="stat-val" style="font-size:13px"></div></div>
+        </div>
+        <div style="color:var(--muted);font-size:10px;margin-top:10px">04/04/2016</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Km y horas por año</div>
+    <div class="chart-wrap"><canvas id="chart-bike"></canvas></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table>
+      <thead><tr><th>Año</th><th>Fuente</th><th class="r">Km</th><th class="r">Horas</th><th class="r">Salidas</th><th class="r">Km/salida</th></tr></thead>
+      <tbody id="table-bike"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SWIMMING -->
+<div id="panel-swimming" class="panel">
+  <div class="pills">
+    <div class="pill" style="border-left:3px solid var(--swim)"><div class="pill-lbl">Total km</div><div class="pill-val" style="color:var(--swim)">218 km</div></div>
+    <div class="pill" style="border-left:3px solid var(--swim)"><div class="pill-lbl">Total horas</div><div class="pill-val" style="color:var(--swim)">96 h</div></div>
+    <div class="pill" style="border-left:3px solid var(--swim)"><div class="pill-lbl">Actividades</div><div class="pill-val" style="color:var(--swim)">158</div></div>
+    <div class="pill" style="border-left:3px solid var(--swim)"><div class="pill-lbl">Media por sesión</div><div class="pill-val" style="color:var(--swim)">1.379 m</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:var(--swim)">🏆 Mejores sesiones</div>
+    <div class="swim-row" style="border-left:3px solid var(--accent)">
+      <span class="swim-rank">#1</span><div style="flex:1"><span class="swim-dist" style="color:var(--accent)">7.719m</span><span style="color:var(--muted);font-size:12px;margin-left:12px">Aguas abiertas</span></div>
+      <div class="swim-right"><div style="font-weight:700;font-size:15px">143 min</div><div style="color:var(--muted);font-size:11px">12/07/2023</div></div>
+    </div>
+    <div class="swim-row" style="border-left:3px solid var(--accent)">
+      <span class="swim-rank">#2</span><div style="flex:1"><span class="swim-dist" style="color:var(--accent)">5.591m</span><span style="color:var(--muted);font-size:12px;margin-left:12px">Aguas abiertas</span></div>
+      <div class="swim-right"><div style="font-weight:700;font-size:15px">105 min</div><div style="color:var(--muted);font-size:11px">09/04/2023</div></div>
+    </div>
+    <div class="swim-row" style="border-left:3px solid var(--border)">
+      <span class="swim-rank">#3</span><div style="flex:1"><span class="swim-dist" style="color:var(--swim)">2.600m</span><span style="color:var(--muted);font-size:12px;margin-left:12px">Piscina</span></div>
+      <div class="swim-right"><div style="font-weight:700;font-size:15px">70 min</div><div style="color:var(--muted);font-size:11px">13/12/2016</div></div>
+    </div>
+    <div class="swim-row" style="border-left:3px solid var(--border)">
+      <span class="swim-rank">#4</span><div style="flex:1"><span class="swim-dist" style="color:var(--swim)">2.550m</span><span style="color:var(--muted);font-size:12px;margin-left:12px">Piscina</span></div>
+      <div class="swim-right"><div style="font-weight:700;font-size:15px">82 min</div><div style="color:var(--muted);font-size:11px">10/02/2023</div></div>
+    </div>
+    <div class="swim-row" style="border-left:3px solid var(--border)">
+      <span class="swim-rank">#5</span><div style="flex:1"><span class="swim-dist" style="color:var(--swim)">2.550m</span><span style="color:var(--muted);font-size:12px;margin-left:12px">Piscina</span></div>
+      <div class="swim-right"><div style="font-weight:700;font-size:15px">65 min</div><div style="color:var(--muted);font-size:11px">24/11/2016</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Km por año</div>
+    <div class="chart-wrap-sm"><canvas id="chart-swim"></canvas></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table>
+      <thead><tr><th>Año</th><th>Fuente</th><th class="r">Km</th><th class="r">Horas</th><th class="r">Sesiones</th></tr></thead>
+      <tbody id="table-swim"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- WEIGHT -->
+<div id="panel-weight" class="panel">
+  <div class="pills" id="weight-pills"></div>
+  <div class="card">
+    <div class="card-title" style="color:var(--weight)">⚖️ Evolución del peso 2019–2026</div>
+    <p style="color:var(--muted);font-size:11px;margin:-14px 0 18px">Báscula RENPHO · media mensual</p>
+    <div class="chart-wrap"><canvas id="chart-weight"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="color:var(--weight)">Grasa corporal % y masa muscular %</div>
+    <div class="chart-wrap"><canvas id="chart-bodycomp"></canvas></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table>
+      <thead><tr><th>Año</th><th class="r">Media</th><th class="r">Mín</th><th class="r">Máx</th><th class="r">1ª medición</th><th class="r">Última</th><th class="r">Grasa % media</th><th class="r">Músculo % medio</th><th class="r">Mediciones</th></tr></thead>
+      <tbody id="table-weight"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SLEEP -->
+<div id="panel-sleep" class="panel">
+  <div class="pills" id="sleep-pills"></div>
+  <div class="card">
+    <div class="card-title" style="color:#A78BFA">😴 Horas dormidas por noche</div>
+    <p style="color:var(--muted);font-size:11px;margin:-14px 0 18px">Media mensual · Garmin, desde 15/6/2016</p>
+    <div class="chart-wrap"><canvas id="chart-sleep"></canvas></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table>
+      <thead><tr><th>Año</th><th class="r">Media/noche</th><th class="r">Sueño profundo medio</th><th class="r">Sueño ligero medio</th><th class="r">Mín</th><th class="r">Máx</th><th class="r">Noches registradas</th></tr></thead>
+      <tbody id="table-sleep"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CALENDAR -->
+<div id="panel-calendar" class="panel">
+  <div class="card">
+    <div class="cal-header">
+      <div class="cal-nav">
+        <button onclick="calNav(-1)">←</button>
+        <div class="cal-title" id="cal-title"></div>
+        <button onclick="calNav(1)">→</button>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><span class="legend-box" style="background:var(--run)"></span>Running</div>
+        <div class="legend-item"><span class="legend-box" style="background:var(--bike)"></span>Ciclismo</div>
+        <div class="legend-item"><span class="legend-box" style="background:var(--swim)"></span>Natación</div>
+        <div class="legend-item"><span class="legend-box" style="background:#A78BFA"></span>Sueño</div>
+        <div class="legend-item"><span class="legend-box" style="background:var(--weight)"></span>Peso</div>
+      </div>
+    </div>
+    <div class="cal-grid" id="cal-dow-row"></div>
+    <div class="cal-grid" id="cal-grid" style="margin-top:4px"></div>
+  </div>
+  <div class="card" id="day-detail-card" style="display:none">
+    <div class="card-title" id="day-detail-title">Día</div>
+    <div id="day-detail-body"></div>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div id="panel-history" class="panel">
+  <div class="card">
+    <div class="card-title">Evolución km por deporte 2014–2026</div>
+    <div style="color:var(--muted);font-size:11px;margin:-14px 0 20px">2014–2015 = solo Endomondo</div>
+    <div class="chart-wrap"><canvas id="chart-hist"></canvas></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="padding:18px 24px 12px;border-bottom:1px solid var(--border)">
+      <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800">Tabla maestra 2014–2026</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr>
+          <th>Año</th><th>Fuente</th>
+          <th class="r" style="color:#FF6B35">🏃 km</th><th class="r" style="color:#FF6B35">h</th><th class="r" style="color:#FF6B35">#</th>
+          <th class="r" style="color:#4ECDC4">🚴 km</th><th class="r" style="color:#4ECDC4">h</th><th class="r" style="color:#4ECDC4">#</th>
+          <th class="r" style="color:#45B7D1">🏊 km</th><th class="r" style="color:#45B7D1">h</th><th class="r" style="color:#45B7D1">#</th>
+          <th class="r">TOTAL km</th><th class="r">TOTAL h</th>
+        </tr></thead>
+        <tbody id="table-hist"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ASK -->
+<div id="panel-ask" class="panel">
+  <div class="card">
+    <div class="card-title">💬 Pregúntame sobre tus datos</div>
+    <p style="color:var(--muted);font-size:11px;margin:-14px 0 18px">Responde con tus datos reales: cada actividad de deporte con fecha, desnivel y ubicación (2014–2026), tu sueño noche a noche (2016–2026) y tu peso diario (2019–2026). También conoce ya tus 4 triatlones de Berlín y tus 2 tours a Gardasee — pregúntale directamente por comparaciones.</p>
+    <div class="suggestions">
+      <div class="sugg" onclick="askSuggested(this)">Compárame mis 4 triatlones de Berlín</div>
+      <div class="sugg" onclick="askSuggested(this)">Compárame mis 3 semanas de entreno en Cádiz</div>
+      <div class="sugg" onclick="askSuggested(this)">Compárame mis dos tours a Gardasee</div>
+      <div class="sugg" onclick="askSuggested(this)">¿Cuánto dormí de media en 2023?</div>
+      <div class="sugg" onclick="askSuggested(this)">¿Cuánto pesé de media en 2024?</div>
+      <div class="sugg" onclick="askSuggested(this)">¿En qué mes pesé menos?</div>
+    </div>
+    <div class="chat-wrap">
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="msg msg-bot">Hola Javier 👋 Pregúntame lo que quieras sobre tus estadísticas de running, bici, natación, hike (2014–2026), tu sueño (2016–2026) o tu peso y composición corporal (2019–2026). También me sé de memoria tus 4 triatlones de Berlín y tus 2 tours a Gardasee.</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')sendChat()"/>
+        <button id="chat-send" onclick="sendChat()">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+let YEARLY, WEIGHT_DATA, WEIGHT_YEARLY, WEIGHT_MONTHLY, ACTIVITIES_DATA, SLEEP_DATA, KNOWN_EVENTS;
+
+async function loadData(){
+  const [yearly, weight, weightYearly, weightMonthly, activities, sleep, known] = await Promise.all([
+    fetch('data/yearly.json').then(r=>r.json()),
+    fetch('data/weight.json').then(r=>r.json()),
+    fetch('data/weight_yearly.json').then(r=>r.json()),
+    fetch('data/weight_monthly.json').then(r=>r.json()),
+    fetch('data/activities.json').then(r=>r.json()),
+    fetch('data/sleep.json').then(r=>r.json()),
+    fetch('data/known_events.json').then(r=>r.json()),
+  ]);
+  YEARLY = yearly; WEIGHT_DATA = weight; WEIGHT_YEARLY = weightYearly; WEIGHT_MONTHLY = weightMonthly;
+  ACTIVITIES_DATA = activities; SLEEP_DATA = sleep; KNOWN_EVENTS = known;
+  buildDashboard();
+}
+loadData().catch(err=>{
+  document.body.innerHTML = '<div style="padding:40px;color:#fff;font-family:monospace">Error cargando datos: '+err.message+'<br>Comprueba que la carpeta data/ está junto a este HTML.</div>';
+});
+
+function buildDashboard(){
+
+
+const YEARS = Object.keys(YEARLY).sort();
+const C = {run:"#FF6B35",bike:"#4ECDC4",swim:"#45B7D1",accent:"#FFE66D",muted:"#6B6B8A",border:"#1E1E2E",card:"#13131A",weight:"#FF6BAE"};
+
+// ============ WEIGHT DATA (RENPHO, actualizado 1/8/26) ============
+// Cada fila: [fecha, peso_kg, imc, grasa_%, musculo_%, grasa_visceral]
+
+
+
+
+// ============ ACTIVITIES DATA (MapMyRun export, actualizado 1/8/26) ============
+// Cada fila: [fecha, deporte(run/bike/swim/hike/other), km, duracion_min, fc_media_bpm, desnivel_positivo_m_o_null, ubicacion_o_null]
+// Desde 2016-06-15 los datos vienen del reloj Garmin (con desnivel y ubicación); antes son de MapMyRun/Endomondo (sin esos campos)
+
+
+// ============ SLEEP DATA (Garmin, 2016-06-15 a hoy) ============
+// Cada fila: [fecha, sueño_profundo_min, sueño_ligero_min, minutos_despierto, total_dormido_min]
+
+
+// ============ EVENTOS CONOCIDOS (precalculados) ============
+// Triatlones de Berlín y tours de varios días ya identificados y verificados con GPS
+
+
+
+function srcTag(y){
+  const yi=parseInt(y);
+  if(yi<=2015) return '<span class="tag tag-endo" style="font-size:9px">ENDO</span>';
+  if(yi===2016) return '<span class="tag tag-endo" style="font-size:9px;opacity:.7">MIXTO</span>';
+  return '<span class="tag tag-garmin" style="font-size:9px">GARMIN</span>';
+}
+
+// Build tables
+function buildTable(id, sport, cols){
+  const tb = document.getElementById(id);
+  [...YEARS].reverse().forEach((y,i)=>{
+    const d = YEARLY[y][sport];
+    if(!d.n) return;
+    const bg = i%2===0?C.card:"#0F0F1A";
+    const color = sport==="run"?C.run:sport==="bike"?C.bike:C.swim;
+    let row = `<tr style="background:${bg}">
+      <td style="color:var(--accent);font-weight:700">${y}</td>
+      <td>${srcTag(y)}</td>
+      <td class="r" style="color:${color};font-weight:700">${d.km.toFixed(1)}</td>
+      <td class="r">${d.h.toFixed(1)}</td>
+      <td class="r">${d.n}</td>`;
+    if(cols!=='swim') row += `<td class="r" style="color:var(--muted)">${(d.km/d.n).toFixed(1)} km</td>`;
+    row += `</tr>`;
+    tb.innerHTML += row;
+  });
+}
+buildTable("table-run","run");
+buildTable("table-bike","bike");
+buildTable("table-swim","swim","swim");
+
+// Master history table
+const th = document.getElementById("table-hist");
+[...YEARS].reverse().forEach((y,i)=>{
+  const d = YEARLY[y];
+  const tk = d.run.km+d.bike.km+d.swim.km;
+  const thr = d.run.h+d.bike.h+d.swim.h;
+  const bg = i%2===0?C.card:"#0F0F1A";
+  th.innerHTML += `<tr style="background:${bg}">
+    <td style="color:var(--accent);font-weight:700">${y}</td>
+    <td>${srcTag(y)}</td>
+    <td class="r" style="color:${C.run};font-weight:700">${d.run.km.toFixed(0)}</td>
+    <td class="r">${d.run.h.toFixed(0)}</td><td class="r">${d.run.n}</td>
+    <td class="r" style="color:${C.bike};font-weight:700">${d.bike.km.toFixed(0)}</td>
+    <td class="r">${d.bike.h.toFixed(0)}</td><td class="r">${d.bike.n}</td>
+    <td class="r" style="color:${C.swim};font-weight:700">${d.swim.km.toFixed(1)}</td>
+    <td class="r">${d.swim.h.toFixed(0)}</td><td class="r">${d.swim.n}</td>
+    <td class="r" style="font-weight:700">${tk.toFixed(0)}</td>
+    <td class="r" style="font-weight:700">${thr.toFixed(0)}</td>
+  </tr>`;
+});
+
+// Chart.js defaults
+Chart.defaults.color = C.muted;
+Chart.defaults.font.family = "'Space Mono', monospace";
+Chart.defaults.font.size = 11;
+const grid = {color:C.border,drawBorder:false};
+const noTick = {display:true,grid,ticks:{color:C.muted}};
+
+// Overview bar chart
+let overviewChart;
+function buildOverview(metric){
+  if(overviewChart) overviewChart.destroy();
+  const runData = YEARS.map(y=>metric==="km"?YEARLY[y].run.km:YEARLY[y].run.h);
+  const bikeData = YEARS.map(y=>metric==="km"?YEARLY[y].bike.km:YEARLY[y].bike.h);
+  const swimData = YEARS.map(y=>metric==="km"?YEARLY[y].swim.km:YEARLY[y].swim.h);
+  overviewChart = new Chart(document.getElementById("chart-overview"),{
+    type:"bar",
+    data:{labels:YEARS,datasets:[
+      {label:"Running",data:runData,backgroundColor:C.run,borderRadius:3},
+      {label:"Ciclismo",data:bikeData,backgroundColor:C.bike,borderRadius:3},
+      {label:"Natación",data:swimData,backgroundColor:C.swim,borderRadius:3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},scales:{x:noTick,y:noTick}}
+  });
+}
+buildOverview("km");
+
+// Line chart overview
+new Chart(document.getElementById("chart-line"),{
+  type:"line",
+  data:{labels:YEARS,datasets:[
+    {label:"Running",data:YEARS.map(y=>YEARLY[y].run.km),borderColor:C.run,backgroundColor:C.run+"40",fill:true,tension:.3,pointRadius:4},
+    {label:"Ciclismo",data:YEARS.map(y=>YEARLY[y].bike.km),borderColor:C.bike,backgroundColor:C.bike+"40",fill:true,tension:.3,pointRadius:4},
+    {label:"Natación",data:YEARS.map(y=>YEARLY[y].swim.km),borderColor:C.swim,backgroundColor:"transparent",tension:.3,pointRadius:4},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},scales:{x:noTick,y:noTick}}
+});
+
+// Running chart
+new Chart(document.getElementById("chart-run"),{
+  type:"bar",
+  data:{labels:YEARS,datasets:[
+    {label:"Km",data:YEARS.map(y=>YEARLY[y].run.km),backgroundColor:C.run,borderRadius:3,yAxisID:"y"},
+    {label:"Horas",data:YEARS.map(y=>YEARLY[y].run.h),backgroundColor:"#FF9F7A",borderRadius:3,yAxisID:"y1"},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
+    scales:{x:noTick,y:{...noTick,position:"left"},y1:{...noTick,position:"right",grid:{display:false}}}}
+});
+
+// Bike chart
+new Chart(document.getElementById("chart-bike"),{
+  type:"bar",
+  data:{labels:YEARS,datasets:[
+    {label:"Km",data:YEARS.map(y=>YEARLY[y].bike.km),backgroundColor:C.bike,borderRadius:3,yAxisID:"y"},
+    {label:"Horas",data:YEARS.map(y=>YEARLY[y].bike.h),backgroundColor:"#7EDDD7",borderRadius:3,yAxisID:"y1"},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
+    scales:{x:noTick,y:{...noTick,position:"left"},y1:{...noTick,position:"right",grid:{display:false}}}}
+});
+
+// Swim chart
+const swimYears = YEARS.filter(y=>YEARLY[y].swim.n>0);
+new Chart(document.getElementById("chart-swim"),{
+  type:"bar",
+  data:{labels:swimYears,datasets:[
+    {label:"Km",data:swimYears.map(y=>YEARLY[y].swim.km),backgroundColor:C.swim,borderRadius:3},
+    {label:"Horas",data:swimYears.map(y=>YEARLY[y].swim.h),backgroundColor:"#7DD8F0",borderRadius:3},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},scales:{x:noTick,y:noTick}}
+});
+
+// History line chart
+new Chart(document.getElementById("chart-hist"),{
+  type:"line",
+  data:{labels:YEARS,datasets:[
+    {label:"Running",data:YEARS.map(y=>YEARLY[y].run.km),borderColor:C.run,tension:.3,pointRadius:5,pointBackgroundColor:C.run,borderWidth:2.5},
+    {label:"Ciclismo",data:YEARS.map(y=>YEARLY[y].bike.km),borderColor:C.bike,tension:.3,pointRadius:5,pointBackgroundColor:C.bike,borderWidth:2.5},
+    {label:"Natación",data:YEARS.map(y=>YEARLY[y].swim.km),borderColor:C.swim,tension:.3,pointRadius:5,pointBackgroundColor:C.swim,borderWidth:2.5},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},scales:{x:{...noTick,grid:{color:C.border}},y:{...noTick,grid:{color:C.border}}}}
+});
+
+// ============ WEIGHT TAB ============
+const wYears = Object.keys(WEIGHT_YEARLY).sort();
+const wPills = document.getElementById("weight-pills");
+const lastW = WEIGHT_DATA[WEIGHT_DATA.length-1];
+const firstW = WEIGHT_DATA[0];
+const allWeights = WEIGHT_DATA.map(r=>r[1]);
+wPills.innerHTML = `
+  <div class="pill" style="border-left:3px solid var(--weight)"><div class="pill-lbl">Peso actual</div><div class="pill-val" style="color:var(--weight)">${lastW[1]} kg</div></div>
+  <div class="pill" style="border-left:3px solid var(--weight)"><div class="pill-lbl">Desde ${firstW[0]}</div><div class="pill-val" style="color:var(--weight)">${(lastW[1]-firstW[1]>=0?"+":"")+(lastW[1]-firstW[1]).toFixed(1)} kg</div></div>
+  <div class="pill" style="border-left:3px solid var(--weight)"><div class="pill-lbl">Mínimo histórico</div><div class="pill-val" style="color:var(--weight)">${Math.min(...allWeights).toFixed(1)} kg</div></div>
+  <div class="pill" style="border-left:3px solid var(--weight)"><div class="pill-lbl">Máximo histórico</div><div class="pill-val" style="color:var(--weight)">${Math.max(...allWeights).toFixed(1)} kg</div></div>`;
+
+const tw = document.getElementById("table-weight");
+[...wYears].reverse().forEach((y,i)=>{
+  const d = WEIGHT_YEARLY[y];
+  const bg = i%2===0?C.card:"#0F0F1A";
+  tw.innerHTML += `<tr style="background:${bg}">
+    <td style="color:var(--accent);font-weight:700">${y}</td>
+    <td class="r" style="color:${C.weight};font-weight:700">${d.avg} kg</td>
+    <td class="r">${d.min} kg</td><td class="r">${d.max} kg</td>
+    <td class="r">${d.first} kg</td><td class="r">${d.last} kg</td>
+    <td class="r">${d.avgBodyFat ?? "—"}${d.avgBodyFat?"%":""}</td>
+    <td class="r">${d.avgMuscle ?? "—"}${d.avgMuscle?"%":""}</td>
+    <td class="r">${d.n}</td>
+  </tr>`;
+});
+
+const monthKeys = Object.keys(WEIGHT_MONTHLY).sort();
+new Chart(document.getElementById("chart-weight"),{
+  type:"line",
+  data:{labels:monthKeys,datasets:[
+    {label:"Peso medio mensual (kg)",data:monthKeys.map(m=>WEIGHT_MONTHLY[m].avg),borderColor:C.weight,backgroundColor:C.weight+"30",fill:true,tension:.3,pointRadius:0,borderWidth:2},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
+    scales:{x:{...noTick,ticks:{color:C.muted,maxTicksLimit:14}},y:noTick}}
+});
+
+const bfMonthly = {}, mpMonthly = {};
+WEIGHT_DATA.forEach(([d,w,bmi,bf,mp])=>{
+  const m = d.slice(0,7);
+  if(bf!=null){ (bfMonthly[m]=bfMonthly[m]||[]).push(bf); }
+  if(mp!=null){ (mpMonthly[m]=mpMonthly[m]||[]).push(mp); }
+});
+const bcMonths = monthKeys.filter(m=>bfMonthly[m]);
+new Chart(document.getElementById("chart-bodycomp"),{
+  type:"line",
+  data:{labels:bcMonths,datasets:[
+    {label:"Grasa corporal %",data:bcMonths.map(m=>(bfMonthly[m].reduce((a,b)=>a+b,0)/bfMonthly[m].length).toFixed(1)),borderColor:"#FF6B35",tension:.3,pointRadius:0,borderWidth:2,yAxisID:"y"},
+    {label:"Músculo esquelético %",data:bcMonths.map(m=>(mpMonthly[m].reduce((a,b)=>a+b,0)/mpMonthly[m].length).toFixed(1)),borderColor:"#4ECDC4",tension:.3,pointRadius:0,borderWidth:2,yAxisID:"y1"},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
+    scales:{x:{...noTick,ticks:{color:C.muted,maxTicksLimit:14}},y:{...noTick,position:"left"},y1:{...noTick,position:"right",grid:{display:false}}}}
+});
+
+// ============ BOT: PREGÚNTAME ============
+const chatMsgs = document.getElementById("chat-msgs");
+const chatInput = document.getElementById("chat-input");
+const chatSend = document.getElementById("chat-send");
+let chatHistory = [];
+
+const DATA_CONTEXT = JSON.stringify({
+  deportes_por_año: YEARLY,
+  actividades_individuales: ACTIVITIES_DATA,
+  formato_actividades: "[fecha YYYY-MM-DD, deporte(run/bike/swim/hike/other), km, duración_minutos, fc_media_bpm_o_null, desnivel_positivo_m_o_null, ubicación_o_null]",
+  nota_deportes: "Desde 2016-06-15 los datos vienen de Garmin (incluyen desnivel positivo y ubicación por actividad). Antes de esa fecha son de MapMyRun/Endomondo, sin esos dos campos. Puedes filtrar por cualquier rango de fechas y sumar/promediar tú mismo. NO hay coordenadas GPS exactas ni nombre de ruta, solo el nombre de la ciudad/pueblo donde empezó la actividad — así que para preguntas sobre 'la ruta X' usa el campo ubicación y el rango de fechas.",
+  eventos_conocidos: KNOWN_EVENTS,
+  nota_eventos: "eventos_conocidos.triatlones tiene los 4 triatlones de Berlín (2016 sin datos exactos, 2023/2024/2026 con splits completos swim/T1/bike/T2/run en minutos). eventos_conocidos.campamentos_entreno_cadiz tiene las 3 semanas de entreno de triatlón en Conil de la Frontera (Cádiz): feb 2023, may 2024 y may 2026, con desglose completo por deporte, sueño, peso y la sesión más intensa de cada semana. eventos_conocidos.enertrag_sommerfest tiene la salida anual en bici Berlin-Prenzlau/Dauerthal por el Sommerfest de la empresa (2019, 2022-2026). eventos_conocidos.tours_multidias tiene los dos tours de bici a Gardasee (2022: München-Malcesine directo; 2026: Kempten-Trento + estancia en Brenzone). Úsalos directamente para comparaciones en vez de recalcular desde cero.",
+  sueño_diario: SLEEP_DATA,
+  formato_sueño_diario: "[fecha YYYY-MM-DD, sueño_profundo_min, sueño_ligero_min, minutos_despierto, total_dormido_min]",
+  fuente_sueño: "Garmin, desde 15/6/2016 hasta hoy (con huecos cuando no llevaba el reloj puesto de noche)",
+  peso_diario: WEIGHT_DATA,
+  formato_peso_diario: "[fecha YYYY-MM-DD, peso_kg, imc, grasa_corporal_%, musculo_esqueletico_%, grasa_visceral]",
+  peso_por_año: WEIGHT_YEARLY,
+  peso_por_mes: WEIGHT_MONTHLY,
+  fuente_peso: "Báscula RENPHO, desde 30/4/2019 hasta 1/8/2026",
+  fuente_deportes: "MapMyRun/Endomondo 2014-2016 + Garmin 2016-2026",
+});
+
+function addMsg(text, cls){
+  const div = document.createElement("div");
+  div.className = "msg " + cls;
+  div.textContent = text;
+  chatMsgs.appendChild(div);
+  chatMsgs.scrollTop = chatMsgs.scrollHeight;
+  return div;
+}
+
+function askSuggested(el){
+  chatInput.value = el.textContent;
+  sendChat();
+}
+
+async function sendChat(){
+  const q = chatInput.value.trim();
+  if(!q) return;
+  addMsg(q, "msg-user");
+  chatInput.value = "";
+  chatInput.disabled = true;
+  chatSend.disabled = true;
+  const loadingDiv = addMsg("Calculando...", "msg-bot loading");
+
+  chatHistory.push({role:"user", content:q});
+
+  let apiKey = localStorage.getItem("anthropic_api_key");
+  if(!apiKey){
+    apiKey = prompt("Clave de API de Anthropic (se guarda solo en este iPhone, en localStorage — nunca sale de este dispositivo salvo para llamar a la API):");
+    if(apiKey) localStorage.setItem("anthropic_api_key", apiKey.trim());
+  }
+  if(!apiKey){
+    loadingDiv.remove();
+    addMsg("Necesito una clave de API de Anthropic para responder. Consíguela en console.anthropic.com/settings/keys", "msg-bot");
+    chatHistory.pop();
+    chatInput.disabled = false; chatSend.disabled = false;
+    return;
+  }
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1000,
+        system: `Eres un asistente que responde preguntas sobre los datos de deporte y salud de Javier, en español, de forma breve y directa (2-5 frases, con la cifra exacta primero). Usa EXCLUSIVAMENTE estos datos, no inventes nada: ${DATA_CONTEXT}. Si la pregunta pide un desglose que no existe en los datos (por ejemplo km de una ruta o ubicación concreta, o datos de un deporte/año sin actividades), dilo explícitamente y ofrece el dato agregado más cercano que sí exista (p.ej. el total del año en ese deporte). Haz tú mismo los cálculos (medias, sumas, comparativas) a partir de los datos crudos cuando haga falta.`,
+        messages: chatHistory,
+      })
+    });
+    const data = await response.json();
+    loadingDiv.remove();
+    if(data.content && data.content.length){
+      const text = data.content.map(b=>b.type==="text"?b.text:"").join("\n").trim();
+      addMsg(text, "msg-bot");
+      chatHistory.push({role:"assistant", content:text});
+    } else if(data.error){
+      addMsg("Error de la API: " + data.error.message + (data.error.type==="authentication_error" ? " — pulsa aquí para cambiar la clave: " : ""), "msg-bot");
+      if(data.error.type==="authentication_error"){
+        localStorage.removeItem("anthropic_api_key");
+      }
+      chatHistory.pop();
+    } else {
+      addMsg("No he podido generar una respuesta. Inténtalo de nuevo.", "msg-bot");
+      chatHistory.pop();
+    }
+  } catch(err){
+    loadingDiv.remove();
+    addMsg("Error de conexión: " + err.message, "msg-bot");
+    chatHistory.pop();
+  }
+  chatInput.disabled = false;
+  chatSend.disabled = false;
+  chatInput.focus();
+}
+
+// ============ SLEEP TAB ============
+const sleepYearly = {};
+SLEEP_DATA.forEach(([date,deep,light,awake,total])=>{
+  const y = date.slice(0,4);
+  if(!sleepYearly[y]) sleepYearly[y] = {totals:[], deeps:[], lights:[]};
+  if(total>0){ sleepYearly[y].totals.push(total); sleepYearly[y].deeps.push(deep); sleepYearly[y].lights.push(light); }
+});
+const sleepYears = Object.keys(sleepYearly).sort();
+const avg = arr => arr.length? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
+const allTotals = SLEEP_DATA.map(r=>r[4]).filter(t=>t>0);
+const avgSleepAll = avg(allTotals);
+const lastSleep = SLEEP_DATA[SLEEP_DATA.length-1];
+
+document.getElementById("sleep-pills").innerHTML = `
+  <div class="pill" style="border-left:3px solid #A78BFA"><div class="pill-lbl">Media histórica</div><div class="pill-val" style="color:#A78BFA">${(avgSleepAll/60).toFixed(1)} h</div></div>
+  <div class="pill" style="border-left:3px solid #A78BFA"><div class="pill-lbl">Última noche</div><div class="pill-val" style="color:#A78BFA">${(lastSleep[4]/60).toFixed(1)} h</div></div>
+  <div class="pill" style="border-left:3px solid #A78BFA"><div class="pill-lbl">Noche más larga</div><div class="pill-val" style="color:#A78BFA">${(Math.max(...allTotals)/60).toFixed(1)} h</div></div>
+  <div class="pill" style="border-left:3px solid #A78BFA"><div class="pill-lbl">Noches registradas</div><div class="pill-val" style="color:#A78BFA">${allTotals.length}</div></div>`;
+
+const tsleep = document.getElementById("table-sleep");
+[...sleepYears].reverse().forEach((y,i)=>{
+  const d = sleepYearly[y];
+  if(!d.totals.length) return;
+  const bg = i%2===0?C.card:"#0F0F1A";
+  tsleep.innerHTML += `<tr style="background:${bg}">
+    <td style="color:var(--accent);font-weight:700">${y}</td>
+    <td class="r" style="color:#A78BFA;font-weight:700">${(avg(d.totals)/60).toFixed(1)} h</td>
+    <td class="r">${(avg(d.deeps)/60).toFixed(1)} h</td>
+    <td class="r">${(avg(d.lights)/60).toFixed(1)} h</td>
+    <td class="r">${(Math.min(...d.totals)/60).toFixed(1)} h</td>
+    <td class="r">${(Math.max(...d.totals)/60).toFixed(1)} h</td>
+    <td class="r">${d.totals.length}</td>
+  </tr>`;
+});
+
+const sleepByMonth = {};
+SLEEP_DATA.forEach(([date,deep,light,awake,total])=>{
+  if(total<=0) return;
+  const m = date.slice(0,7);
+  (sleepByMonth[m]=sleepByMonth[m]||[]).push(total);
+});
+const sleepMonths = Object.keys(sleepByMonth).sort();
+new Chart(document.getElementById("chart-sleep"),{
+  type:"line",
+  data:{labels:sleepMonths,datasets:[
+    {label:"Horas dormidas (media mensual)",data:sleepMonths.map(m=>(avg(sleepByMonth[m])/60).toFixed(2)),borderColor:"#A78BFA",backgroundColor:"#A78BFA30",fill:true,tension:.3,pointRadius:0,borderWidth:2},
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
+    scales:{x:{...noTick,ticks:{color:C.muted,maxTicksLimit:14}},y:noTick}}
+});
+
+// ============ CALENDAR TAB ============
+const actByDate = {};
+ACTIVITIES_DATA.forEach(r=>{ (actByDate[r[0]]=actByDate[r[0]]||[]).push(r); });
+const sleepByDate = {};
+SLEEP_DATA.forEach(r=>{ sleepByDate[r[0]] = r; });
+const weightByDate = {};
+WEIGHT_DATA.forEach(r=>{ weightByDate[r[0]] = r; }); // last one wins if multiple same day
+
+let calYear = 2026, calMonth = 7; // August 2026 (0-indexed month=7)
+const DOW = ['L','M','X','J','V','S','D'];
+const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const sportColor = {run:C.run, bike:C.bike, swim:C.swim, hike:'#FFA726', other:C.muted};
+
+function calNav(delta){
+  calMonth += delta;
+  if(calMonth<0){ calMonth=11; calYear--; }
+  if(calMonth>11){ calMonth=0; calYear++; }
+  renderCalendar();
+}
+
+function renderCalendar(){
+  document.getElementById("cal-title").textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
+  const dowRow = document.getElementById("cal-dow-row");
+  dowRow.innerHTML = DOW.map(d=>`<div class="cal-dow">${d}</div>`).join("");
+
+  const firstDay = new Date(calYear, calMonth, 1);
+  let startOffset = firstDay.getDay()-1; // Monday=0
+  if(startOffset<0) startOffset=6;
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+
+  const grid = document.getElementById("cal-grid");
+  let html = "";
+  for(let i=0;i<startOffset;i++) html += `<div class="cal-day empty"></div>`;
+  for(let d=1; d<=daysInMonth; d++){
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const acts = actByDate[dateStr] || [];
+    const hasSleep = !!sleepByDate[dateStr];
+    const hasWeight = !!weightByDate[dateStr];
+    let dots = acts.slice(0,4).map(a=>`<span class="cal-dot" style="background:${sportColor[a[1]]||C.muted}"></span>`).join("");
+    if(hasSleep) dots += `<span class="cal-dot" style="background:#A78BFA"></span>`;
+    if(hasWeight) dots += `<span class="cal-dot" style="background:${C.weight}"></span>`;
+    html += `<div class="cal-day" onclick="showDay('${dateStr}')"><div class="cal-daynum">${d}</div><div class="cal-dots">${dots}</div></div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function showDay(dateStr){
+  const card = document.getElementById("day-detail-card");
+  card.style.display = "flex";
+  document.getElementById("day-detail-title").textContent = dateStr;
+  const acts = actByDate[dateStr] || [];
+  const sleep = sleepByDate[dateStr];
+  const weight = weightByDate[dateStr];
+  let rows = "";
+  const sportNames = {run:'🏃 Running', bike:'🚴 Ciclismo', swim:'🏊 Natación', hike:'🥾 Hike', other:'Otro'};
+  acts.forEach(a=>{
+    const [date,sport,km,mn,hr,elev,loc] = a;
+    rows += `<div class="day-detail-row"><span>${sportNames[sport]||sport}${loc?' · '+loc:''}</span><span>${km} km · ${mn} min${hr?' · '+hr+' bpm':''}${elev?' · +'+elev+'m':''}</span></div>`;
+  });
+  if(sleep){
+    rows += `<div class="day-detail-row"><span>😴 Sueño</span><span>${(sleep[4]/60).toFixed(1)} h (profundo ${(sleep[1]/60).toFixed(1)}h · ligero ${(sleep[2]/60).toFixed(1)}h)</span></div>`;
+  }
+  if(weight){
+    rows += `<div class="day-detail-row"><span>⚖️ Peso</span><span>${weight[1]} kg${weight[3]?' · grasa '+weight[3]+'%':''}</span></div>`;
+  }
+  if(!rows) rows = `<div class="day-detail-row"><span style="color:var(--muted)">Sin datos para este día</span></div>`;
+  document.getElementById("day-detail-body").innerHTML = rows;
+  document.querySelectorAll(".cal-day").forEach(el=>el.classList.remove("selected"));
+  event.currentTarget.classList.add("selected");
+}
+
+renderCalendar();
+
+// Tab switching
+function showTab(name){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("panel-"+name).classList.add("active");
+  event.target.classList.add("active");
+}
+
+// Metric switching
+function switchMetric(m){
+  document.getElementById("btn-km").classList.toggle("active",m==="km");
+  document.getElementById("btn-h").classList.toggle("active",m==="h");
+  buildOverview(m);
+}
+
+
+// Expose functions referenced by inline onclick/onkeydown in the HTML
+window.showTab = showTab;
+window.switchMetric = switchMetric;
+window.askSuggested = askSuggested;
+window.sendChat = sendChat;
+window.calNav = calNav;
+window.showDay = showDay;
+
+} // end buildDashboard
+</script>
+</body>
+</html>
