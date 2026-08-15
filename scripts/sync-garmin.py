@@ -89,15 +89,16 @@ def round_or_none(v, ndigits=2):
 
 
 def activity_fingerprint(row):
-    # Prefer the Garmin activity ID when present (position 19) — exact and
-    # unambiguous. Fall back to a fuzzy date+type+distance+duration match
-    # for legacy rows that predate this field.
-    if len(row) > 19 and row[19] is not None:
-        return ("id", row[19])
+    # Match on date+type+distance+duration for every row, old or new. Using
+    # the Garmin activity ID only for freshly-fetched rows (and not for
+    # legacy rows that don't have one) caused legacy and newly-synced
+    # copies of the same activity to get different fingerprints and both
+    # get kept — duplicating history. The fuzzy key alone is reliable
+    # enough since duration is also matched, not just distance.
     date_, type_, dist, dur = row[0], row[1], row[2], row[3]
     dist_r = round(dist, 1) if dist is not None else None
     dur_r = round(dur, 1) if dur is not None else None
-    return ("fuzzy", date_, type_, dist_r, dur_r)
+    return (date_, type_, dist_r, dur_r)
 
 
 def fetch_recent_activities(client):
@@ -211,11 +212,24 @@ def fetch_recent_sleep(client):
 
 
 def merge_activities(existing, new_rows):
-    existing_keys = set(activity_fingerprint(r) for r in existing)
-    to_add = [r for r in new_rows if activity_fingerprint(r) not in existing_keys]
-    merged = existing + to_add
-    merged.sort(key=lambda r: r[0])
-    return merged, len(to_add)
+    by_key = {}
+    for r in existing:
+        k = activity_fingerprint(r)
+        if k not in by_key or len(r) > len(by_key[k]):
+            by_key[k] = r
+
+    added, upgraded = 0, 0
+    for r in new_rows:
+        k = activity_fingerprint(r)
+        if k not in by_key:
+            by_key[k] = r
+            added += 1
+        elif len(r) > len(by_key[k]):
+            by_key[k] = r  # replace thin legacy row with the richer synced one
+            upgraded += 1
+
+    merged = sorted(by_key.values(), key=lambda r: r[0])
+    return merged, added, upgraded
 
 
 def merge_sleep(existing, new_rows):
@@ -266,8 +280,9 @@ def main():
     print(f"  fetched {len(new_sleep)} nights of sleep data")
 
     existing_activities = load_json(ACTIVITIES_PATH, [])
-    merged_activities, n_added = merge_activities(existing_activities, new_activities)
-    print(f"Activities: {n_added} new row(s) added ({len(existing_activities)} -> {len(merged_activities)})")
+    merged_activities, n_added, n_upgraded = merge_activities(existing_activities, new_activities)
+    print(f"Activities: {n_added} new row(s), {n_upgraded} legacy row(s) upgraded with fuller detail "
+          f"({len(existing_activities)} -> {len(merged_activities)})")
 
     existing_sleep = load_json(SLEEP_PATH, [])
     merged_sleep, s_added, s_updated = merge_sleep(existing_sleep, new_sleep)
