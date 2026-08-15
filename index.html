@@ -4,9 +4,9 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="Mis Estadísticas"/>
-<meta name="theme-color" content="#0A0A0F"/>
+<meta name="theme-color" content="#FAFAF7"/>
 <link rel="apple-touch-icon" href="icon.png"/>
 <title>Mis Estadísticas · 2014–2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
@@ -15,15 +15,15 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#0A0A0F;color:#E8E8F0;font-family:'Space Mono',monospace;min-height:100vh}
-:root{--run:#FF6B35;--bike:#4ECDC4;--swim:#45B7D1;--accent:#FFE66D;--bg:#0A0A0F;--card:#13131A;--border:#1E1E2E;--muted:#6B6B8A;--endo:#A78BFA;--weight:#FF6BAE}
-.header{background:linear-gradient(180deg,#13131A,#0A0A0F);border-bottom:1px solid var(--border);padding:26px 32px 0}
+body{background:#FAFAF7;color:#1E2A26;font-family:'Space Mono',monospace;min-height:100vh}
+:root{--run:#E8752C;--bike:#2E7DBF;--swim:#1EA6A0;--accent:#F2994A;--bg:#FAFAF7;--card:#FFFFFF;--border:#E2E7E3;--muted:#74827D;--endo:#8FA3B0;--weight:#2F6B4F;--ink:#1E2A26;--hike:#4F9A55;--sleep:#6FA8D6}
+.header{background:linear-gradient(180deg,#FFFFFF,#FAFAF7);border-bottom:1px solid var(--border);padding:26px 32px 0}
 .header-inner{max-width:1120px;margin:0 auto}
 h1{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 4px}
 .source-tags{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
 .tag{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:700}
-.tag-endo{background:rgba(167,139,250,0.2);color:var(--endo)}
-.tag-garmin{background:rgba(78,205,196,0.2);color:var(--bike)}
+.tag-endo{background:rgba(143,163,176,0.2);color:var(--endo)}
+.tag-garmin{background:rgba(46,125,191,0.2);color:var(--bike)}
 .subtitle{color:var(--muted);font-size:13px;margin-bottom:18px}
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
 .hero-stat{padding:10px 16px;background:var(--border);border-radius:10px;text-align:center}
@@ -48,16 +48,16 @@ h1{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-
 .pill-lbl{color:var(--muted);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
 .pill-val{font-size:26px;font-weight:700}
 .records-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.rec-card{background:#0A0A14;border:1px solid var(--border);border-radius:10px;padding:16px 14px}
+.rec-card{background:#EEF3EF;border:1px solid var(--border);border-radius:10px;padding:16px 14px}
 .rec-dist{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:10px}
 .rec-time{font-size:24px;font-weight:700;color:var(--accent);margin-bottom:6px}
 .rec-sub{color:var(--muted);font-size:10px;margin-bottom:2px}
 .rec-src{font-size:9px;padding:2px 5px;border-radius:3px;font-weight:700;display:inline-block;margin-top:4px}
 .cyc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.cyc-card{background:#0A0A14;border:1px solid var(--border);border-radius:10px;padding:20px}
+.cyc-card{background:#EEF3EF;border:1px solid var(--border);border-radius:10px;padding:20px}
 .cyc-hl{font-size:28px;font-weight:700;color:var(--accent);margin-bottom:12px}
 .cyc-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.swim-row{display:flex;align-items:center;gap:16px;background:#0A0A14;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:8px}
+.swim-row{display:flex;align-items:center;gap:16px;background:#EEF3EF;border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:8px}
 .swim-rank{color:var(--muted);font-size:20px;font-weight:700;min-width:32px}
 .swim-dist{font-size:24px;font-weight:700}
 .swim-right{text-align:right}
@@ -72,7 +72,7 @@ thead tr{background:var(--border)}
 th{padding:10px 12px;text-align:left;color:var(--muted);font-size:10px;letter-spacing:.05em;white-space:nowrap}
 th.r,td.r{text-align:right}
 tbody tr{border-top:1px solid var(--border)}
-tbody tr:nth-child(even){background:#0F0F1A}
+tbody tr:nth-child(even){background:#F1F4F1}
 tbody tr:nth-child(odd){background:var(--card)}
 td{padding:9px 12px}
 .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
@@ -86,7 +86,7 @@ td{padding:9px 12px}
 .msg-bot{align-self:flex-start;background:var(--card);border:1px solid var(--border);border-bottom-left-radius:3px}
 .msg-bot.loading{color:var(--muted)}
 .chat-input-row{display:flex;gap:8px;margin-top:14px}
-.chat-input-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:#E8E8F0;font-family:'Space Mono',monospace;font-size:13px}
+.chat-input-row input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:#1E2A26;font-family:'Space Mono',monospace;font-size:13px}
 .chat-input-row input:focus{outline:none;border-color:var(--accent)}
 .chat-input-row button{background:var(--accent);color:#000;border:none;border-radius:10px;padding:0 20px;font-weight:700;font-family:'Space Mono',monospace;cursor:pointer;font-size:12px}
 .chat-input-row button:disabled{opacity:.5;cursor:default}
@@ -95,12 +95,12 @@ td{padding:9px 12px}
 .sugg:hover{border-color:var(--accent);color:var(--accent)}
 .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .cal-nav{display:flex;gap:8px;align-items:center}
-.cal-nav button{background:var(--border);color:var(--text,#E8E8F0);border:none;cursor:pointer;padding:6px 12px;border-radius:6px;font-family:'Space Mono',monospace;font-weight:700}
+.cal-nav button{background:var(--border);color:var(--text,#1E2A26);border:none;cursor:pointer;padding:6px 12px;border-radius:6px;font-family:'Space Mono',monospace;font-weight:700}
 .cal-nav button:hover{background:var(--accent);color:#000}
 .cal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .cal-dow{color:var(--muted);font-size:9px;text-align:center;padding:4px 0;letter-spacing:.05em}
-.cal-day{aspect-ratio:1;background:#0A0A14;border:1px solid var(--border);border-radius:6px;padding:4px;cursor:pointer;display:flex;flex-direction:column;font-size:10px;position:relative;transition:border-color .1s}
+.cal-day{aspect-ratio:1;background:#EEF3EF;border:1px solid var(--border);border-radius:6px;padding:4px;cursor:pointer;display:flex;flex-direction:column;font-size:10px;position:relative;transition:border-color .1s}
 .cal-day:hover{border-color:var(--accent)}
 .cal-day.empty{background:transparent;border:none;cursor:default}
 .cal-day.selected{border-color:var(--accent);border-width:2px}
@@ -216,35 +216,35 @@ td{padding:9px 12px}
         <div class="rec-time">3m 56s</div>
         <div class="rec-sub">Ritmo 3:56 /km</div>
         <div class="rec-sub">19/08/2019 · 3km act.</div>
-        <span class="rec-src" style="background:rgba(167,139,250,0.2);color:var(--endo)">Endomondo</span>
+        <span class="rec-src" style="background:rgba(143,163,176,0.2);color:var(--endo)">Endomondo</span>
       </div>
       <div class="rec-card" style="border-top:2px solid var(--run)">
         <div class="rec-dist" style="color:var(--run)">5 km</div>
         <div class="rec-time">21m 12s</div>
         <div class="rec-sub">Ritmo 4:14 /km</div>
         <div class="rec-sub">31/12/2016 · 10km act.</div>
-        <span class="rec-src" style="background:rgba(167,139,250,0.2);color:var(--endo)">Endomondo</span>
+        <span class="rec-src" style="background:rgba(143,163,176,0.2);color:var(--endo)">Endomondo</span>
       </div>
       <div class="rec-card" style="border-top:2px solid var(--run)">
         <div class="rec-dist" style="color:var(--run)">10 km</div>
         <div class="rec-time">42m 24s</div>
         <div class="rec-sub">Ritmo 4:14 /km</div>
         <div class="rec-sub">31/12/2016 · 10km act.</div>
-        <span class="rec-src" style="background:rgba(167,139,250,0.2);color:var(--endo)">Endomondo</span>
+        <span class="rec-src" style="background:rgba(143,163,176,0.2);color:var(--endo)">Endomondo</span>
       </div>
       <div class="rec-card" style="border-top:2px solid var(--run)">
         <div class="rec-dist" style="color:var(--run)">21 km</div>
         <div class="rec-time">1h 41m 21s</div>
         <div class="rec-sub">Ritmo 4:48 /km</div>
         <div class="rec-sub">12/12/2015 · 22km act.</div>
-        <span class="rec-src" style="background:rgba(167,139,250,0.2);color:var(--endo)">Endomondo</span>
+        <span class="rec-src" style="background:rgba(143,163,176,0.2);color:var(--endo)">Endomondo</span>
       </div>
       <div class="rec-card" style="border-top:2px solid var(--run)">
         <div class="rec-dist" style="color:var(--run)">42 km</div>
         <div class="rec-time">3h 25m 42s</div>
         <div class="rec-sub">Ritmo 4:52 /km · 181bpm</div>
         <div class="rec-sub">29/09/2019 · 42.2km</div>
-        <span class="rec-src" style="background:rgba(78,205,196,0.2);color:var(--bike)">Maratón Berlín</span>
+        <span class="rec-src" style="background:rgba(46,125,191,0.2);color:var(--bike)">Maratón Berlín</span>
       </div>
     </div>
   </div>
@@ -385,7 +385,7 @@ td{padding:9px 12px}
 <div id="panel-sleep" class="panel">
   <div class="pills" id="sleep-pills"></div>
   <div class="card">
-    <div class="card-title" style="color:#A78BFA">😴 Horas dormidas por noche</div>
+    <div class="card-title" style="color:#6FA8D6">😴 Horas dormidas por noche</div>
     <p style="color:var(--muted);font-size:11px;margin:-14px 0 18px">Media mensual · Garmin, desde 15/6/2016</p>
     <div class="chart-wrap"><canvas id="chart-sleep"></canvas></div>
   </div>
@@ -410,7 +410,7 @@ td{padding:9px 12px}
         <div class="legend-item"><span class="legend-box" style="background:var(--run)"></span>Running</div>
         <div class="legend-item"><span class="legend-box" style="background:var(--bike)"></span>Ciclismo</div>
         <div class="legend-item"><span class="legend-box" style="background:var(--swim)"></span>Natación</div>
-        <div class="legend-item"><span class="legend-box" style="background:#A78BFA"></span>Sueño</div>
+        <div class="legend-item"><span class="legend-box" style="background:#6FA8D6"></span>Sueño</div>
         <div class="legend-item"><span class="legend-box" style="background:var(--weight)"></span>Peso</div>
       </div>
     </div>
@@ -438,9 +438,9 @@ td{padding:9px 12px}
       <table>
         <thead><tr>
           <th>Año</th><th>Fuente</th>
-          <th class="r" style="color:#FF6B35">🏃 km</th><th class="r" style="color:#FF6B35">h</th><th class="r" style="color:#FF6B35">#</th>
-          <th class="r" style="color:#4ECDC4">🚴 km</th><th class="r" style="color:#4ECDC4">h</th><th class="r" style="color:#4ECDC4">#</th>
-          <th class="r" style="color:#45B7D1">🏊 km</th><th class="r" style="color:#45B7D1">h</th><th class="r" style="color:#45B7D1">#</th>
+          <th class="r" style="color:#E8752C">🏃 km</th><th class="r" style="color:#E8752C">h</th><th class="r" style="color:#E8752C">#</th>
+          <th class="r" style="color:#2E7DBF">🚴 km</th><th class="r" style="color:#2E7DBF">h</th><th class="r" style="color:#2E7DBF">#</th>
+          <th class="r" style="color:#1EA6A0">🏊 km</th><th class="r" style="color:#1EA6A0">h</th><th class="r" style="color:#1EA6A0">#</th>
           <th class="r">TOTAL km</th><th class="r">TOTAL h</th>
         </tr></thead>
         <tbody id="table-hist"></tbody>
@@ -494,14 +494,14 @@ async function loadData(){
   buildDashboard();
 }
 loadData().catch(err=>{
-  document.body.innerHTML = '<div style="padding:40px;color:#fff;font-family:monospace">Error cargando datos: '+err.message+'<br>Comprueba que la carpeta data/ está junto a este HTML.</div>';
+  document.body.innerHTML = '<div style="padding:40px;color:#1E2A26;font-family:monospace">Error cargando datos: '+err.message+'<br>Comprueba que la carpeta data/ está junto a este HTML.</div>';
 });
 
 function buildDashboard(){
 
 
 const YEARS = Object.keys(YEARLY).sort();
-const C = {run:"#FF6B35",bike:"#4ECDC4",swim:"#45B7D1",accent:"#FFE66D",muted:"#6B6B8A",border:"#1E1E2E",card:"#13131A",weight:"#FF6BAE"};
+const C = {run:"#E8752C",bike:"#2E7DBF",swim:"#1EA6A0",accent:"#F2994A",muted:"#74827D",border:"#E2E7E3",card:"#FFFFFF",weight:"#2F6B4F",hike:"#4F9A55",sleep:"#6FA8D6",ink:"#1E2A26"};
 
 // ============ WEIGHT DATA (RENPHO, actualizado 1/8/26) ============
 // Cada fila: [fecha, peso_kg, imc, grasa_%, musculo_%, grasa_visceral]
@@ -536,7 +536,7 @@ function buildTable(id, sport, cols){
   [...YEARS].reverse().forEach((y,i)=>{
     const d = YEARLY[y][sport];
     if(!d.n) return;
-    const bg = i%2===0?C.card:"#0F0F1A";
+    const bg = i%2===0?C.card:"#F1F4F1";
     const color = sport==="run"?C.run:sport==="bike"?C.bike:C.swim;
     let row = `<tr style="background:${bg}">
       <td style="color:var(--accent);font-weight:700">${y}</td>
@@ -559,7 +559,7 @@ const th = document.getElementById("table-hist");
   const d = YEARLY[y];
   const tk = d.run.km+d.bike.km+d.swim.km;
   const thr = d.run.h+d.bike.h+d.swim.h;
-  const bg = i%2===0?C.card:"#0F0F1A";
+  const bg = i%2===0?C.card:"#F1F4F1";
   th.innerHTML += `<tr style="background:${bg}">
     <td style="color:var(--accent);font-weight:700">${y}</td>
     <td>${srcTag(y)}</td>
@@ -616,7 +616,7 @@ new Chart(document.getElementById("chart-run"),{
   type:"bar",
   data:{labels:YEARS,datasets:[
     {label:"Km",data:YEARS.map(y=>YEARLY[y].run.km),backgroundColor:C.run,borderRadius:3,yAxisID:"y"},
-    {label:"Horas",data:YEARS.map(y=>YEARLY[y].run.h),backgroundColor:"#FF9F7A",borderRadius:3,yAxisID:"y1"},
+    {label:"Horas",data:YEARS.map(y=>YEARLY[y].run.h),backgroundColor:"#F4B27E",borderRadius:3,yAxisID:"y1"},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
     scales:{x:noTick,y:{...noTick,position:"left"},y1:{...noTick,position:"right",grid:{display:false}}}}
@@ -627,7 +627,7 @@ new Chart(document.getElementById("chart-bike"),{
   type:"bar",
   data:{labels:YEARS,datasets:[
     {label:"Km",data:YEARS.map(y=>YEARLY[y].bike.km),backgroundColor:C.bike,borderRadius:3,yAxisID:"y"},
-    {label:"Horas",data:YEARS.map(y=>YEARLY[y].bike.h),backgroundColor:"#7EDDD7",borderRadius:3,yAxisID:"y1"},
+    {label:"Horas",data:YEARS.map(y=>YEARLY[y].bike.h),backgroundColor:"#9CC2E0",borderRadius:3,yAxisID:"y1"},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
     scales:{x:noTick,y:{...noTick,position:"left"},y1:{...noTick,position:"right",grid:{display:false}}}}
@@ -639,7 +639,7 @@ new Chart(document.getElementById("chart-swim"),{
   type:"bar",
   data:{labels:swimYears,datasets:[
     {label:"Km",data:swimYears.map(y=>YEARLY[y].swim.km),backgroundColor:C.swim,borderRadius:3},
-    {label:"Horas",data:swimYears.map(y=>YEARLY[y].swim.h),backgroundColor:"#7DD8F0",borderRadius:3},
+    {label:"Horas",data:swimYears.map(y=>YEARLY[y].swim.h),backgroundColor:"#7ED9D2",borderRadius:3},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},scales:{x:noTick,y:noTick}}
 });
@@ -670,7 +670,7 @@ wPills.innerHTML = `
 const tw = document.getElementById("table-weight");
 [...wYears].reverse().forEach((y,i)=>{
   const d = WEIGHT_YEARLY[y];
-  const bg = i%2===0?C.card:"#0F0F1A";
+  const bg = i%2===0?C.card:"#F1F4F1";
   tw.innerHTML += `<tr style="background:${bg}">
     <td style="color:var(--accent);font-weight:700">${y}</td>
     <td class="r" style="color:${C.weight};font-weight:700">${d.avg} kg</td>
@@ -702,8 +702,8 @@ const bcMonths = monthKeys.filter(m=>bfMonthly[m]);
 new Chart(document.getElementById("chart-bodycomp"),{
   type:"line",
   data:{labels:bcMonths,datasets:[
-    {label:"Grasa corporal %",data:bcMonths.map(m=>(bfMonthly[m].reduce((a,b)=>a+b,0)/bfMonthly[m].length).toFixed(1)),borderColor:"#FF6B35",tension:.3,pointRadius:0,borderWidth:2,yAxisID:"y"},
-    {label:"Músculo esquelético %",data:bcMonths.map(m=>(mpMonthly[m].reduce((a,b)=>a+b,0)/mpMonthly[m].length).toFixed(1)),borderColor:"#4ECDC4",tension:.3,pointRadius:0,borderWidth:2,yAxisID:"y1"},
+    {label:"Grasa corporal %",data:bcMonths.map(m=>(bfMonthly[m].reduce((a,b)=>a+b,0)/bfMonthly[m].length).toFixed(1)),borderColor:"#E8752C",tension:.3,pointRadius:0,borderWidth:2,yAxisID:"y"},
+    {label:"Músculo esquelético %",data:bcMonths.map(m=>(mpMonthly[m].reduce((a,b)=>a+b,0)/mpMonthly[m].length).toFixed(1)),borderColor:"#2E7DBF",tension:.3,pointRadius:0,borderWidth:2,yAxisID:"y1"},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
     scales:{x:{...noTick,ticks:{color:C.muted,maxTicksLimit:14}},y:{...noTick,position:"left"},y1:{...noTick,position:"right",grid:{display:false}}}}
@@ -827,19 +827,19 @@ const avgSleepAll = avg(allTotals);
 const lastSleep = SLEEP_DATA[SLEEP_DATA.length-1];
 
 document.getElementById("sleep-pills").innerHTML = `
-  <div class="pill" style="border-left:3px solid #A78BFA"><div class="pill-lbl">Media histórica</div><div class="pill-val" style="color:#A78BFA">${(avgSleepAll/60).toFixed(1)} h</div></div>
-  <div class="pill" style="border-left:3px solid #A78BFA"><div class="pill-lbl">Última noche</div><div class="pill-val" style="color:#A78BFA">${(lastSleep[4]/60).toFixed(1)} h</div></div>
-  <div class="pill" style="border-left:3px solid #A78BFA"><div class="pill-lbl">Noche más larga</div><div class="pill-val" style="color:#A78BFA">${(Math.max(...allTotals)/60).toFixed(1)} h</div></div>
-  <div class="pill" style="border-left:3px solid #A78BFA"><div class="pill-lbl">Noches registradas</div><div class="pill-val" style="color:#A78BFA">${allTotals.length}</div></div>`;
+  <div class="pill" style="border-left:3px solid #6FA8D6"><div class="pill-lbl">Media histórica</div><div class="pill-val" style="color:#6FA8D6">${(avgSleepAll/60).toFixed(1)} h</div></div>
+  <div class="pill" style="border-left:3px solid #6FA8D6"><div class="pill-lbl">Última noche</div><div class="pill-val" style="color:#6FA8D6">${(lastSleep[4]/60).toFixed(1)} h</div></div>
+  <div class="pill" style="border-left:3px solid #6FA8D6"><div class="pill-lbl">Noche más larga</div><div class="pill-val" style="color:#6FA8D6">${(Math.max(...allTotals)/60).toFixed(1)} h</div></div>
+  <div class="pill" style="border-left:3px solid #6FA8D6"><div class="pill-lbl">Noches registradas</div><div class="pill-val" style="color:#6FA8D6">${allTotals.length}</div></div>`;
 
 const tsleep = document.getElementById("table-sleep");
 [...sleepYears].reverse().forEach((y,i)=>{
   const d = sleepYearly[y];
   if(!d.totals.length) return;
-  const bg = i%2===0?C.card:"#0F0F1A";
+  const bg = i%2===0?C.card:"#F1F4F1";
   tsleep.innerHTML += `<tr style="background:${bg}">
     <td style="color:var(--accent);font-weight:700">${y}</td>
-    <td class="r" style="color:#A78BFA;font-weight:700">${(avg(d.totals)/60).toFixed(1)} h</td>
+    <td class="r" style="color:#6FA8D6;font-weight:700">${(avg(d.totals)/60).toFixed(1)} h</td>
     <td class="r">${(avg(d.deeps)/60).toFixed(1)} h</td>
     <td class="r">${(avg(d.lights)/60).toFixed(1)} h</td>
     <td class="r">${(Math.min(...d.totals)/60).toFixed(1)} h</td>
@@ -858,7 +858,7 @@ const sleepMonths = Object.keys(sleepByMonth).sort();
 new Chart(document.getElementById("chart-sleep"),{
   type:"line",
   data:{labels:sleepMonths,datasets:[
-    {label:"Horas dormidas (media mensual)",data:sleepMonths.map(m=>(avg(sleepByMonth[m])/60).toFixed(2)),borderColor:"#A78BFA",backgroundColor:"#A78BFA30",fill:true,tension:.3,pointRadius:0,borderWidth:2},
+    {label:"Horas dormidas (media mensual)",data:sleepMonths.map(m=>(avg(sleepByMonth[m])/60).toFixed(2)),borderColor:"#6FA8D6",backgroundColor:"#6FA8D630",fill:true,tension:.3,pointRadius:0,borderWidth:2},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
     scales:{x:{...noTick,ticks:{color:C.muted,maxTicksLimit:14}},y:noTick}}
@@ -875,7 +875,7 @@ WEIGHT_DATA.forEach(r=>{ weightByDate[r[0]] = r; }); // last one wins if multipl
 let calYear = 2026, calMonth = 7; // August 2026 (0-indexed month=7)
 const DOW = ['L','M','X','J','V','S','D'];
 const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const sportColor = {run:C.run, bike:C.bike, swim:C.swim, hike:'#FFA726', other:C.muted};
+const sportColor = {run:C.run, bike:C.bike, swim:C.swim, hike:'#4F9A55', other:C.muted};
 
 function calNav(delta){
   calMonth += delta;
@@ -903,7 +903,7 @@ function renderCalendar(){
     const hasSleep = !!sleepByDate[dateStr];
     const hasWeight = !!weightByDate[dateStr];
     let dots = acts.slice(0,4).map(a=>`<span class="cal-dot" style="background:${sportColor[a[1]]||C.muted}"></span>`).join("");
-    if(hasSleep) dots += `<span class="cal-dot" style="background:#A78BFA"></span>`;
+    if(hasSleep) dots += `<span class="cal-dot" style="background:#6FA8D6"></span>`;
     if(hasWeight) dots += `<span class="cal-dot" style="background:${C.weight}"></span>`;
     html += `<div class="cal-day" onclick="showDay('${dateStr}')"><div class="cal-daynum">${d}</div><div class="cal-dots">${dots}</div></div>`;
   }
@@ -973,9 +973,9 @@ function showDay(dateStr){
     const map = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false })
       .setView([startLat, startLon], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
-    L.circleMarker([startLat, startLon], { radius: 6, color: '#66D9A0', fillColor: '#66D9A0', fillOpacity: 1, weight: 2 }).addTo(map);
+    L.circleMarker([startLat, startLon], { radius: 6, color: '#34B37A', fillColor: '#34B37A', fillOpacity: 1, weight: 2 }).addTo(map);
     if (endLat != null && endLon != null && (endLat !== startLat || endLon !== startLon)) {
-      L.circleMarker([endLat, endLon], { radius: 6, color: '#FF6B35', fillColor: '#FF6B35', fillOpacity: 1, weight: 2 }).addTo(map);
+      L.circleMarker([endLat, endLon], { radius: 6, color: '#E8752C', fillColor: '#E8752C', fillOpacity: 1, weight: 2 }).addTo(map);
       map.fitBounds([[startLat, startLon], [endLat, endLon]], { padding: [24, 24] });
     }
     window._dayMaps.push(map);
