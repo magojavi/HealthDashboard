@@ -11,6 +11,8 @@
 <title>Mis Estadísticas · 2014–2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0A0A0F;color:#E8E8F0;font-family:'Space Mono',monospace;min-height:100vh}
@@ -108,6 +110,12 @@ td{padding:9px 12px}
 .day-detail{margin-top:8px}
 .day-detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
 .day-detail-row:last-child{border-bottom:none}
+.day-detail-item{padding:10px 0;border-bottom:1px solid var(--border)}
+.day-detail-item:last-child{border-bottom:none}
+.day-detail-sub{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 10px;margin-top:4px;font-size:10.5px;color:var(--muted)}
+.day-detail-sub a{color:var(--bike);text-decoration:none}
+.day-detail-sub a:hover{text-decoration:underline}
+.day-map{margin-top:8px;height:150px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
 </style>
 </head>
 <body>
@@ -909,20 +917,70 @@ function showDay(dateStr){
   const acts = actByDate[dateStr] || [];
   const sleep = sleepByDate[dateStr];
   const weight = weightByDate[dateStr];
-  let rows = "";
+
+  // Clear any Leaflet maps from a previous day before re-rendering
+  (window._dayMaps || []).forEach(m => m.remove());
+  window._dayMaps = [];
+
   const sportNames = {run:'🏃 Running', bike:'🚴 Ciclismo', swim:'🏊 Natación', hike:'🥾 Hike', other:'Otro'};
-  acts.forEach(a=>{
-    const [date,sport,km,mn,hr,elev,loc] = a;
-    rows += `<div class="day-detail-row"><span>${sportNames[sport]||sport}${loc?' · '+loc:''}</span><span>${km} km · ${mn} min${hr?' · '+hr+' bpm':''}${elev?' · +'+elev+'m':''}</span></div>`;
+  let rows = "";
+  const mapsToInit = []; // {id, startLat, startLon, endLat, endLon}
+
+  acts.forEach((a, i) => {
+    const [date, sport, km, mn, hr, elev, loc,
+      maxElev, minElev, elevLoss,
+      startLat, startLon, endLat, endLon,
+      avgSpeed, maxSpeed, calories, maxHr, cadence,
+      activityId, activityName] = a;
+
+    const title = activityName ? activityName : (sportNames[sport] || sport);
+    const mainLine = `${km} km · ${mn} min${hr ? ' · ' + hr + ' bpm' : ''}${elev ? ' · +' + elev + 'm' : ''}`;
+
+    const subParts = [];
+    if (maxHr) subParts.push(`FC máx ${maxHr} bpm`);
+    if (minElev != null && maxElev != null) subParts.push(`alt. ${minElev}–${maxElev} m`);
+    if (elevLoss) subParts.push(`−${elevLoss} m bajada`);
+    if (avgSpeed) subParts.push(`${avgSpeed} km/h media`);
+    if (maxSpeed) subParts.push(`${maxSpeed} km/h máx`);
+    if (cadence) subParts.push(`cad. ${cadence}`);
+    if (calories) subParts.push(`🔥 ${calories} kcal`);
+    if (activityId) subParts.push(`<a href="https://connect.garmin.com/modern/activity/${activityId}" target="_blank" rel="noopener">Ver en Garmin ↗</a>`);
+
+    const mapId = `daymap-${dateStr}-${i}`;
+    const hasCoords = startLat != null && startLon != null;
+    if (hasCoords) mapsToInit.push({ id: mapId, startLat, startLon, endLat, endLon });
+
+    rows += `<div class="day-detail-item">
+      <div class="day-detail-row"><span>${sportNames[sport] || ''} ${activityName ? '· ' + activityName : ''}${loc ? ' · ' + loc : ''}</span><span>${mainLine}</span></div>
+      ${subParts.length ? `<div class="day-detail-sub">${subParts.map(p => `<span>${p}</span>`).join('')}</div>` : ''}
+      ${hasCoords ? `<div class="day-map" id="${mapId}"></div>` : ''}
+    </div>`;
   });
+
   if(sleep){
     rows += `<div class="day-detail-row"><span>😴 Sueño</span><span>${(sleep[4]/60).toFixed(1)} h (profundo ${(sleep[1]/60).toFixed(1)}h · ligero ${(sleep[2]/60).toFixed(1)}h)</span></div>`;
   }
   if(weight){
     rows += `<div class="day-detail-row"><span>⚖️ Peso</span><span>${weight[1]} kg${weight[3]?' · grasa '+weight[3]+'%':''}</span></div>`;
   }
-  if(!rows) rows = `<div class="day-detail-row"><span style="color:var(--muted)">Sin datos para este día</span></div>`;
+  if (!rows) rows = `<div class="day-detail-row"><span style="color:var(--muted)">Sin datos para este día</span></div>`;
   document.getElementById("day-detail-body").innerHTML = rows;
+
+  // Initialize the small static maps now that their containers exist in the DOM
+  mapsToInit.forEach(({ id, startLat, startLon, endLat, endLon }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const map = L.map(id, { zoomControl: false, attributionControl: false, dragging: false, scrollWheelZoom: false, doubleClickZoom: false, touchZoom: false })
+      .setView([startLat, startLon], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+    L.circleMarker([startLat, startLon], { radius: 6, color: '#66D9A0', fillColor: '#66D9A0', fillOpacity: 1, weight: 2 }).addTo(map);
+    if (endLat != null && endLon != null && (endLat !== startLat || endLon !== startLon)) {
+      L.circleMarker([endLat, endLon], { radius: 6, color: '#FF6B35', fillColor: '#FF6B35', fillOpacity: 1, weight: 2 }).addTo(map);
+      map.fitBounds([[startLat, startLon], [endLat, endLon]], { padding: [24, 24] });
+    }
+    window._dayMaps.push(map);
+  });
+
   document.querySelectorAll(".cal-day").forEach(el=>el.classList.remove("selected"));
   event.currentTarget.classList.add("selected");
 }
