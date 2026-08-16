@@ -423,20 +423,21 @@ td{padding:9px 12px}
 </div><!-- /content -->
 
 <script>
-let YEARLY, WEIGHT_DATA, WEIGHT_YEARLY, WEIGHT_MONTHLY, ACTIVITIES_DATA, SLEEP_DATA, KNOWN_EVENTS;
+let WEIGHT_DATA, WEIGHT_YEARLY, WEIGHT_MONTHLY, ACTIVITIES_DATA, SLEEP_DATA, KNOWN_EVENTS, YEARLY;
 
+// Solo se cargan archivos de datos brutos (una fila por actividad / por día de
+// peso). Todos los resúmenes (por año, por mes, por deporte) se calculan aquí
+// en el cliente a partir de esos datos brutos — así nunca puede haber un
+// resumen desincronizado o con una clave que falte, porque no existen
+// resúmenes pregenerados que puedan quedarse obsoletos o incompletos.
 async function loadData(){
-  const [yearly, weight, weightYearly, weightMonthly, activities, sleep, known] = await Promise.all([
-    fetch('data/yearly.json').then(r=>r.json()),
+  const [weight, activities, sleep, known] = await Promise.all([
     fetch('data/weight.json').then(r=>r.json()),
-    fetch('data/weight_yearly.json').then(r=>r.json()),
-    fetch('data/weight_monthly.json').then(r=>r.json()),
     fetch('data/activities.json').then(r=>r.json()),
     fetch('data/sleep.json').then(r=>r.json()),
     fetch('data/known_events.json').then(r=>r.json()),
   ]);
-  YEARLY = yearly; WEIGHT_DATA = weight; WEIGHT_YEARLY = weightYearly; WEIGHT_MONTHLY = weightMonthly;
-  ACTIVITIES_DATA = activities; SLEEP_DATA = sleep; KNOWN_EVENTS = known;
+  WEIGHT_DATA = weight; ACTIVITIES_DATA = activities; SLEEP_DATA = sleep; KNOWN_EVENTS = known;
   buildDashboard();
 }
 loadData().catch(err=>{
@@ -446,7 +447,25 @@ loadData().catch(err=>{
 function buildDashboard(){
 
 
+// Resumen por año/deporte calculado en vivo desde ACTIVITIES_DATA (misma
+// lógica que recompute_yearly() en scripts/sync-garmin.py, replicada aquí
+// para no depender de un data/yearly.json que pueda quedar incompleto).
+function computeSportYearly(){
+  const yearly = {};
+  ACTIVITIES_DATA.forEach(([date, type_, dist, dur]) => {
+    if(!['run','bike','swim','hike'].includes(type_)) return;
+    const y = date.slice(0,4);
+    yearly[y] = yearly[y] || {};
+    const b = yearly[y][type_] = yearly[y][type_] || {km:0, h:0, n:0};
+    b.km = Math.round((b.km + (dist||0)) * 100) / 100;
+    b.h = Math.round((b.h + (dur||0)/60) * 100) / 100;
+    b.n += 1;
+  });
+  return yearly;
+}
+YEARLY = computeSportYearly();
 const YEARS = Object.keys(YEARLY).sort();
+function getSport(y, sport){ return (YEARLY[y] && YEARLY[y][sport]) || {km:0,h:0,n:0}; }
 
 // ============ HERO STATS (computed live from loaded data, not hardcoded) ============
 (function(){
@@ -595,7 +614,7 @@ function srcTag(y){
 function buildTable(id, sport, cols){
   const tb = document.getElementById(id);
   [...YEARS].reverse().forEach((y,i)=>{
-    const d = YEARLY[y][sport];
+    const d = getSport(y, sport);
     if(!d.n) return;
     const bg = i%2===0?C.card:"#F1F4F1";
     const color = sport==="run"?C.run:sport==="bike"?C.bike:C.swim;
@@ -617,19 +636,19 @@ buildTable("table-swim","swim","swim");
 // Master history table
 const th = document.getElementById("table-hist");
 [...YEARS].reverse().forEach((y,i)=>{
-  const d = YEARLY[y];
-  const tk = d.run.km+d.bike.km+d.swim.km;
-  const thr = d.run.h+d.bike.h+d.swim.h;
+  const run = getSport(y,"run"), bike = getSport(y,"bike"), swim = getSport(y,"swim");
+  const tk = run.km+bike.km+swim.km;
+  const thr = run.h+bike.h+swim.h;
   const bg = i%2===0?C.card:"#F1F4F1";
   th.innerHTML += `<tr style="background:${bg}">
     <td style="color:var(--accent);font-weight:700">${y}</td>
     <td>${srcTag(y)}</td>
-    <td class="r" style="color:${C.run};font-weight:700">${d.run.km.toFixed(0)}</td>
-    <td class="r">${fmtDuration(d.run.h*60)}</td><td class="r">${d.run.n}</td>
-    <td class="r" style="color:${C.bike};font-weight:700">${d.bike.km.toFixed(0)}</td>
-    <td class="r">${fmtDuration(d.bike.h*60)}</td><td class="r">${d.bike.n}</td>
-    <td class="r" style="color:${C.swim};font-weight:700">${d.swim.km.toFixed(1)}</td>
-    <td class="r">${fmtDuration(d.swim.h*60)}</td><td class="r">${d.swim.n}</td>
+    <td class="r" style="color:${C.run};font-weight:700">${run.km.toFixed(0)}</td>
+    <td class="r">${fmtDuration(run.h*60)}</td><td class="r">${run.n}</td>
+    <td class="r" style="color:${C.bike};font-weight:700">${bike.km.toFixed(0)}</td>
+    <td class="r">${fmtDuration(bike.h*60)}</td><td class="r">${bike.n}</td>
+    <td class="r" style="color:${C.swim};font-weight:700">${swim.km.toFixed(1)}</td>
+    <td class="r">${fmtDuration(swim.h*60)}</td><td class="r">${swim.n}</td>
     <td class="r" style="font-weight:700">${tk.toFixed(0)}</td>
     <td class="r" style="font-weight:700">${fmtDuration(thr*60)}</td>
   </tr>`;
@@ -648,7 +667,7 @@ function buildOverview(metric){
   if(overviewChart) overviewChart.destroy();
   const runData = YEARS.map(y=>metric==="km"?YEARLY[y].run.km:YEARLY[y].run.h);
   const bikeData = YEARS.map(y=>metric==="km"?YEARLY[y].bike.km:YEARLY[y].bike.h);
-  const swimData = YEARS.map(y=>metric==="km"?YEARLY[y].swim.km:YEARLY[y].swim.h);
+  const swimData = YEARS.map(y=>metric==="km"?getSport(y,"swim").km:getSport(y,"swim").h);
   overviewChart = new Chart(document.getElementById("chart-overview"),{
     type:"bar",
     data:{labels:YEARS,datasets:[
@@ -667,7 +686,7 @@ new Chart(document.getElementById("chart-line"),{
   data:{labels:YEARS,datasets:[
     {label:"Running",data:YEARS.map(y=>YEARLY[y].run.km),borderColor:C.run,backgroundColor:C.run+"40",fill:true,tension:.3,pointRadius:4},
     {label:"Ciclismo",data:YEARS.map(y=>YEARLY[y].bike.km),borderColor:C.bike,backgroundColor:C.bike+"40",fill:true,tension:.3,pointRadius:4},
-    {label:"Natación",data:YEARS.map(y=>YEARLY[y].swim.km),borderColor:C.swim,backgroundColor:"transparent",tension:.3,pointRadius:4},
+    {label:"Natación",data:YEARS.map(y=>getSport(y,"swim").km),borderColor:C.swim,backgroundColor:"transparent",tension:.3,pointRadius:4},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},scales:{x:noTick,y:noTick}}
 });
@@ -705,8 +724,8 @@ function makeDrillableSportChart(canvasId, crumbId, sport, years, mainColor, sec
 
   function renderYearView(){
     if (chart) chart.destroy();
-    const km = years.map(y => YEARLY[y][sport].km);
-    const h = years.map(y => YEARLY[y][sport].h);
+    const km = years.map(y => getSport(y,sport).km);
+    const h = years.map(y => getSport(y,sport).h);
     chart = new Chart(document.getElementById(canvasId), {
       type: "bar",
       data: {labels: years, datasets: [
@@ -766,7 +785,7 @@ function makeDrillableSportChart(canvasId, crumbId, sport, years, mainColor, sec
 
 makeDrillableSportChart("chart-run", "chart-run-crumb", "run", YEARS, C.run, "#F4B27E");
 makeDrillableSportChart("chart-bike", "chart-bike-crumb", "bike", YEARS, C.bike, "#9CC2E0");
-const swimYears = YEARS.filter(y => YEARLY[y].swim.n > 0);
+const swimYears = YEARS.filter(y => getSport(y,"swim").n > 0);
 makeDrillableSportChart("chart-swim", "chart-swim-crumb", "swim", swimYears, C.swim, "#7ED9D2");
 
 // History line chart
@@ -775,7 +794,7 @@ new Chart(document.getElementById("chart-hist"),{
   data:{labels:YEARS,datasets:[
     {label:"Running",data:YEARS.map(y=>YEARLY[y].run.km),borderColor:C.run,tension:.3,pointRadius:5,pointBackgroundColor:C.run,borderWidth:2.5},
     {label:"Ciclismo",data:YEARS.map(y=>YEARLY[y].bike.km),borderColor:C.bike,tension:.3,pointRadius:5,pointBackgroundColor:C.bike,borderWidth:2.5},
-    {label:"Natación",data:YEARS.map(y=>YEARLY[y].swim.km),borderColor:C.swim,tension:.3,pointRadius:5,pointBackgroundColor:C.swim,borderWidth:2.5},
+    {label:"Natación",data:YEARS.map(y=>getSport(y,"swim").km),borderColor:C.swim,tension:.3,pointRadius:5,pointBackgroundColor:C.swim,borderWidth:2.5},
   ]},
   options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},scales:{x:{...noTick,grid:{color:C.border}},y:{...noTick,grid:{color:C.border}}}}
 });
