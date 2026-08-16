@@ -43,8 +43,11 @@ en el propio iPhone, no hace falta repetirlo). Consigue una clave en
    - `GARMIN_EMAIL` = el email de tu cuenta Garmin Connect
    - `GARMIN_PASSWORD` = tu contraseña de Garmin Connect
 2. Ya está — el workflow en `.github/workflows/sync-garmin.yml` corre solo
-   cada noche a las 05:00 UTC y actualiza `data/activities.json`,
-   `data/sleep.json` y `data/yearly.json` automáticamente.
+   cada noche a las 05:00 UTC y actualiza `data/activities.json` y
+   `data/sleep.json` automáticamente. El dashboard calcula los resúmenes
+   (por año, por mes, por deporte) en el propio navegador a partir de esos
+   datos brutos, así que no hay ningún archivo resumen que mantener
+   sincronizado aparte.
 3. Para probarlo ya mismo sin esperar: pestaña **Actions** del repo →
    "Sync Garmin data" → **Run workflow**.
 
