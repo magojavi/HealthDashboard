@@ -175,6 +175,7 @@ td{padding:9px 12px}
       </div>
     </div>
     <div class="chart-wrap"><canvas id="chart-overview"></canvas></div>
+    <div id="chart-overview-crumb" class="drill-crumb"></div>
   </div>
   <div class="card">
     <div class="card-title">Evolución histórica 2014–2026</div>
@@ -339,6 +340,7 @@ td{padding:9px 12px}
     <div class="card-title" style="color:var(--weight)">⚖️ Evolución del peso 2019–2026</div>
     <p style="color:var(--muted);font-size:11px;margin:-14px 0 18px">Báscula RENPHO · media mensual</p>
     <div class="chart-wrap"><canvas id="chart-weight"></canvas></div>
+    <div id="chart-weight-crumb" class="drill-crumb"></div>
   </div>
   <div class="card">
     <div class="card-title" style="color:var(--weight)">Grasa corporal % y masa muscular %</div>
@@ -359,6 +361,7 @@ td{padding:9px 12px}
     <div class="card-title" style="color:#6FA8D6">😴 Horas dormidas por noche</div>
     <p style="color:var(--muted);font-size:11px;margin:-14px 0 18px">Media mensual · Garmin, desde 15/6/2016</p>
     <div class="chart-wrap"><canvas id="chart-sleep"></canvas></div>
+    <div id="chart-sleep-crumb" class="drill-crumb"></div>
   </div>
   <div class="card" style="padding:0;overflow:hidden">
     <table>
@@ -661,13 +664,24 @@ Chart.defaults.font.size = 11;
 const grid = {color:C.border,drawBorder:false};
 const noTick = {display:true,grid,ticks:{color:C.muted}};
 
-// Overview bar chart
+// Overview bar chart — drillable year -> month -> (jump to Calendar day)
 let overviewChart;
-function buildOverview(metric){
-  if(overviewChart) overviewChart.destroy();
-  const runData = YEARS.map(y=>metric==="km"?YEARLY[y].run.km:YEARLY[y].run.h);
-  const bikeData = YEARS.map(y=>metric==="km"?YEARLY[y].bike.km:YEARLY[y].bike.h);
-  const swimData = YEARS.map(y=>metric==="km"?getSport(y,"swim").km:getSport(y,"swim").h);
+let overviewMetric = "km";
+let overviewLevel = "year"; // "year" | "month"
+let overviewSelectedYear = null;
+
+function ovTooltipLabel(ctx){
+  return overviewMetric === "h"
+    ? `${ctx.dataset.label}: ${fmtDuration(ctx.parsed.y * 60)}`
+    : `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} km`;
+}
+
+function renderOverviewYearView(){
+  if (overviewChart) overviewChart.destroy();
+  overviewLevel = "year"; overviewSelectedYear = null;
+  const runData = YEARS.map(y=>overviewMetric==="km"?getSport(y,"run").km:getSport(y,"run").h);
+  const bikeData = YEARS.map(y=>overviewMetric==="km"?getSport(y,"bike").km:getSport(y,"bike").h);
+  const swimData = YEARS.map(y=>overviewMetric==="km"?getSport(y,"swim").km:getSport(y,"swim").h);
   overviewChart = new Chart(document.getElementById("chart-overview"),{
     type:"bar",
     data:{labels:YEARS,datasets:[
@@ -675,10 +689,52 @@ function buildOverview(metric){
       {label:"Ciclismo",data:bikeData,backgroundColor:C.bike,borderRadius:3},
       {label:"Natación",data:swimData,backgroundColor:C.swim,borderRadius:3},
     ]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},scales:{x:noTick,y:noTick}}
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:C.muted,boxWidth:12}},tooltip:{callbacks:{label:ovTooltipLabel}}},
+      scales:{x:noTick,y:noTick},
+      onClick:(evt,elements)=>{ if(!elements.length) return; renderOverviewMonthView(YEARS[elements[0].index]); },
+    }
   });
+  const crumbEl = document.getElementById("chart-overview-crumb");
+  if(crumbEl) crumbEl.innerHTML = `<span class="drill-hint">Toca un año para ver los meses ↓</span>`;
 }
-buildOverview("km");
+
+function monthlyAggAllSports(year){
+  const months = Array.from({length:12}, () => ({run:0,bike:0,swim:0}));
+  ACTIVITIES_DATA.forEach(a=>{
+    if(!['run','bike','swim'].includes(a[1])) return;
+    if(!a[0].startsWith(year+'-')) return;
+    const mIdx = parseInt(a[0].slice(5,7),10)-1;
+    const val = overviewMetric==='km' ? (a[2]||0) : (a[3]||0)/60;
+    months[mIdx][a[1]] += val;
+  });
+  return months;
+}
+
+function renderOverviewMonthView(year){
+  if (overviewChart) overviewChart.destroy();
+  overviewLevel = "month"; overviewSelectedYear = year;
+  const months = monthlyAggAllSports(year);
+  overviewChart = new Chart(document.getElementById("chart-overview"),{
+    type:"bar",
+    data:{labels:MONTH_ABBR,datasets:[
+      {label:"Running",data:months.map(m=>m.run),backgroundColor:C.run,borderRadius:3},
+      {label:"Ciclismo",data:months.map(m=>m.bike),backgroundColor:C.bike,borderRadius:3},
+      {label:"Natación",data:months.map(m=>m.swim),backgroundColor:C.swim,borderRadius:3},
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:C.muted,boxWidth:12}},tooltip:{callbacks:{label:ovTooltipLabel}}},
+      scales:{x:noTick,y:noTick},
+      onClick:(evt,elements)=>{ if(!elements.length) return; goToCalendarMonth(year, elements[0].index); },
+    }
+  });
+  const crumbEl = document.getElementById("chart-overview-crumb");
+  if(crumbEl) crumbEl.innerHTML = `<span class="drill-back" onclick="window._chartDrillBack['chart-overview']()">← ${year}</span><span class="drill-hint">Toca un mes para ver los días →</span>`;
+}
+
+window._chartDrillBack = window._chartDrillBack || {};
+window._chartDrillBack["chart-overview"] = renderOverviewYearView;
+renderOverviewYearView();
 
 // Line chart overview
 new Chart(document.getElementById("chart-line"),{
@@ -872,14 +928,66 @@ const tw = document.getElementById("table-weight");
 });
 
 const monthKeys = Object.keys(WEIGHT_MONTHLY).sort();
-new Chart(document.getElementById("chart-weight"),{
-  type:"line",
-  data:{labels:monthKeys,datasets:[
-    {label:"Peso medio mensual (kg)",data:monthKeys.map(m=>WEIGHT_MONTHLY[m].avg),borderColor:C.weight,backgroundColor:C.weight+"30",fill:true,tension:.3,pointRadius:0,borderWidth:2},
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}}},
-    scales:{x:{...noTick,ticks:{color:C.muted,maxTicksLimit:14}},y:noTick}}
-});
+
+// Weight chart — drillable year -> month -> (jump to Calendar day)
+let weightChart;
+let weightLevel = "year"; // "year" | "month"
+let weightSelectedYear = null;
+
+function renderWeightYearView(){
+  if(weightChart) weightChart.destroy();
+  weightLevel = "year"; weightSelectedYear = null;
+  const data = wYears.map(y => parseFloat(WEIGHT_YEARLY[y].avg));
+  weightChart = new Chart(document.getElementById("chart-weight"), {
+    type: "bar",
+    data: {labels: wYears, datasets: [
+      {label:"Peso medio anual (kg)", data, backgroundColor: C.weight, borderRadius:3},
+    ]},
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:C.muted,boxWidth:12}}, tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y.toFixed(1)} kg`}}},
+      scales:{x:noTick, y:noTick},
+      onClick:(evt,elements)=>{ if(!elements.length) return; renderWeightMonthView(wYears[elements[0].index]); },
+    }
+  });
+  const crumbEl = document.getElementById("chart-weight-crumb");
+  if(crumbEl) crumbEl.innerHTML = `<span class="drill-hint">Toca un año para ver los meses ↓</span>`;
+}
+
+function weightMonthlyAgg(year){
+  const months = Array.from({length:12}, () => []);
+  WEIGHT_DATA.forEach(r=>{
+    if(!r[0].startsWith(year+'-')) return;
+    if(r[1]==null) return;
+    const mIdx = parseInt(r[0].slice(5,7),10)-1;
+    months[mIdx].push(r[1]);
+  });
+  return months.map(arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null);
+}
+
+function renderWeightMonthView(year){
+  if(weightChart) weightChart.destroy();
+  weightLevel = "month"; weightSelectedYear = year;
+  const monthAvgs = weightMonthlyAgg(year);
+  weightChart = new Chart(document.getElementById("chart-weight"), {
+    type: "line",
+    data: {labels: MONTH_ABBR, datasets: [
+      {label:"Peso medio mensual (kg)", data: monthAvgs, borderColor: C.weight, backgroundColor: C.weight+"30", fill:true, tension:.3, pointRadius:4, borderWidth:2, spanGaps:true},
+    ]},
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:C.muted,boxWidth:12}}, tooltip:{callbacks:{label:ctx=>ctx.parsed.y!=null ? `${ctx.parsed.y.toFixed(1)} kg` : 'Sin datos'}}},
+      scales:{x:noTick, y:noTick},
+      onClick:(evt,elements)=>{ if(!elements.length) return; goToCalendarMonth(year, elements[0].index); },
+    }
+  });
+  const crumbEl = document.getElementById("chart-weight-crumb");
+  if(crumbEl) crumbEl.innerHTML = `<span class="drill-back" onclick="window._chartDrillBack['chart-weight']()">← ${year}</span><span class="drill-hint">Toca un mes para ver los días →</span>`;
+}
+
+window._chartDrillBack = window._chartDrillBack || {};
+window._chartDrillBack["chart-weight"] = renderWeightYearView;
+renderWeightYearView();
 
 const bfMonthly = {}, mpMonthly = {};
 WEIGHT_DATA.forEach(([d,w,bmi,bf,mp])=>{
@@ -940,15 +1048,66 @@ SLEEP_DATA.forEach(([date,deep,light,awake,total])=>{
   (sleepByMonth[m]=sleepByMonth[m]||[]).push(total);
 });
 const sleepMonths = Object.keys(sleepByMonth).sort();
-new Chart(document.getElementById("chart-sleep"),{
-  type:"line",
-  data:{labels:sleepMonths,datasets:[
-    {label:"Horas dormidas (media mensual)",data:sleepMonths.map(m=>(avg(sleepByMonth[m])/60).toFixed(2)),borderColor:"#6FA8D6",backgroundColor:"#6FA8D630",fill:true,tension:.3,pointRadius:0,borderWidth:2},
-  ]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:C.muted,boxWidth:12}},
-    tooltip:{callbacks:{label:ctx=>fmtDuration(ctx.parsed.y*60)}}},
-    scales:{x:{...noTick,ticks:{color:C.muted,maxTicksLimit:14}},y:noTick}}
-});
+
+// Sleep chart — drillable year -> month -> (jump to Calendar day)
+let sleepChart;
+let sleepLevel = "year"; // "year" | "month"
+let sleepSelectedYear = null;
+
+function renderSleepYearView(){
+  if(sleepChart) sleepChart.destroy();
+  sleepLevel = "year"; sleepSelectedYear = null;
+  const data = sleepYears.map(y => avg(sleepYearly[y].totals)/60);
+  sleepChart = new Chart(document.getElementById("chart-sleep"), {
+    type: "bar",
+    data: {labels: sleepYears, datasets:[
+      {label:"Horas dormidas (media anual)", data, backgroundColor:"#6FA8D6", borderRadius:3},
+    ]},
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:C.muted,boxWidth:12}}, tooltip:{callbacks:{label:ctx=>fmtDuration(ctx.parsed.y*60)}}},
+      scales:{x:noTick,y:noTick},
+      onClick:(evt,elements)=>{ if(!elements.length) return; renderSleepMonthView(sleepYears[elements[0].index]); },
+    }
+  });
+  const crumbEl = document.getElementById("chart-sleep-crumb");
+  if(crumbEl) crumbEl.innerHTML = `<span class="drill-hint">Toca un año para ver los meses ↓</span>`;
+}
+
+function sleepMonthlyAgg(year){
+  const months = Array.from({length:12}, () => []);
+  SLEEP_DATA.forEach(([date,deep,light,awake,total])=>{
+    if(!date.startsWith(year+'-')) return;
+    if(total<=0) return;
+    const mIdx = parseInt(date.slice(5,7),10)-1;
+    months[mIdx].push(total);
+  });
+  return months.map(arr => arr.length ? (avg(arr)/60) : null);
+}
+
+function renderSleepMonthView(year){
+  if(sleepChart) sleepChart.destroy();
+  sleepLevel = "month"; sleepSelectedYear = year;
+  const monthAvgs = sleepMonthlyAgg(year);
+  sleepChart = new Chart(document.getElementById("chart-sleep"), {
+    type: "line",
+    data: {labels: MONTH_ABBR, datasets:[
+      {label:"Horas dormidas (media mensual)", data: monthAvgs, borderColor:"#6FA8D6", backgroundColor:"#6FA8D630", fill:true, tension:.3, pointRadius:4, borderWidth:2, spanGaps:true},
+    ]},
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:C.muted,boxWidth:12}}, tooltip:{callbacks:{label:ctx=>ctx.parsed.y!=null?fmtDuration(ctx.parsed.y*60):'Sin datos'}}},
+      scales:{x:noTick,y:noTick},
+      onClick:(evt,elements)=>{ if(!elements.length) return; goToCalendarMonth(year, elements[0].index); },
+    }
+  });
+  const crumbEl = document.getElementById("chart-sleep-crumb");
+  if(crumbEl) crumbEl.innerHTML = `<span class="drill-back" onclick="window._chartDrillBack['chart-sleep']()">← ${year}</span><span class="drill-hint">Toca un mes para ver los días →</span>`;
+}
+
+window._chartDrillBack = window._chartDrillBack || {};
+window._chartDrillBack["chart-sleep"] = renderSleepYearView;
+renderSleepYearView();
 
 // ============ CALENDAR TAB ============
 const actByDate = {};
@@ -1078,11 +1237,16 @@ function showTab(name){
   event.target.classList.add("active");
 }
 
-// Metric switching
+// Metric switching — stays on whatever drill level (year/month) is active
 function switchMetric(m){
   document.getElementById("btn-km").classList.toggle("active",m==="km");
   document.getElementById("btn-h").classList.toggle("active",m==="h");
-  buildOverview(m);
+  overviewMetric = m;
+  if(overviewLevel === "month" && overviewSelectedYear){
+    renderOverviewMonthView(overviewSelectedYear);
+  } else {
+    renderOverviewYearView();
+  }
 }
 
 
