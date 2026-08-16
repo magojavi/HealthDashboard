@@ -13,7 +13,11 @@ individuals) and merges anything new into:
                              max_speed_kmh, calories, max_hr, avg_cadence,
                              activity_id, activity_name]
   data/sleep.json        -> [date, deep_min, light_min, awake_min, total_sleep_min]
-  data/yearly.json       -> {year: {type: {km, h, n}}}  (always fully recomputed from activities.json)
+
+No derived/summary files (yearly totals, etc.) are generated here anymore —
+the dashboard computes all of that client-side from activities.json and
+weight.json directly, so there's nothing pregenerated that can drift out of
+sync or be missing a key.
 
 The first 7 fields keep their original positions for backward compatibility
 with anything already reading this file; everything from max_elevation_m
@@ -41,7 +45,6 @@ from garminconnect import Garmin
 
 ACTIVITIES_PATH = os.environ.get("ACTIVITIES_JSON_PATH", "data/activities.json")
 SLEEP_PATH = os.environ.get("SLEEP_JSON_PATH", "data/sleep.json")
-YEARLY_PATH = os.environ.get("YEARLY_JSON_PATH", "data/yearly.json")
 
 ACTIVITY_LOOKBACK_COUNT = 60   # most recent N activities to re-check each run
 SLEEP_LOOKBACK_DAYS = 10       # re-check sleep for the last N days each run
@@ -245,20 +248,6 @@ def merge_sleep(existing, new_rows):
     return merged, added, updated
 
 
-def recompute_yearly(activities):
-    yearly = {}
-    for date_, type_, dist, dur, *_ in activities:
-        if type_ not in ("run", "bike", "swim", "hike"):
-            continue
-        year = date_[:4]
-        yearly.setdefault(year, {})
-        bucket = yearly[year].setdefault(type_, {"km": 0, "h": 0, "n": 0})
-        bucket["km"] = round(bucket["km"] + (dist or 0), 2)
-        bucket["h"] = round(bucket["h"] + (dur or 0) / 60, 2)
-        bucket["n"] += 1
-    return dict(sorted(yearly.items()))
-
-
 def main():
     email = os.environ.get("GARMIN_EMAIL")
     password = os.environ.get("GARMIN_PASSWORD")
@@ -288,11 +277,8 @@ def main():
     merged_sleep, s_added, s_updated = merge_sleep(existing_sleep, new_sleep)
     print(f"Sleep: {s_added} new night(s), {s_updated} updated ({len(existing_sleep)} -> {len(merged_sleep)})")
 
-    yearly = recompute_yearly(merged_activities)
-
     save_json(ACTIVITIES_PATH, merged_activities)
     save_json(SLEEP_PATH, merged_sleep)
-    save_json(YEARLY_PATH, yearly)
     print("Done.")
 
 
