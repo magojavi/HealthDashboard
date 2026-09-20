@@ -28,7 +28,7 @@ from urllib.request import Request, urlopen
 
 API_BASE = "https://api.hevyapp.com/v1"
 API_KEY = os.environ.get("HEVY_API_KEY")
-OUTPUT_PATH = Path(__file__).resolve().parent / "data" / "strength.json"
+OUTPUT_PATH = Path(__file__).resolve().parent.parent / "data" / "strength.json"
 PAGE_SIZE = 10  # Hevy's documented max page size for /workouts; lower this if the API rejects it
 MAX_RETRIES = 3
 RETRY_DELAY_SECONDS = 5
