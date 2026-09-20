@@ -16,7 +16,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#FAFAF7;color:#1E2A26;font-family:'Space Mono',monospace;min-height:100vh}
-:root{--run:#E8752C;--bike:#2E7DBF;--swim:#1EA6A0;--accent:#F2994A;--bg:#FAFAF7;--card:#FFFFFF;--border:#E2E7E3;--muted:#74827D;--endo:#8FA3B0;--weight:#2F6B4F;--ink:#1E2A26;--hike:#4F9A55;--sleep:#6FA8D6}
+:root{--run:#E8752C;--bike:#2E7DBF;--swim:#1EA6A0;--accent:#F2994A;--bg:#FAFAF7;--card:#FFFFFF;--border:#E2E7E3;--muted:#74827D;--endo:#8FA3B0;--weight:#2F6B4F;--ink:#1E2A26;--hike:#4F9A55;--sleep:#6FA8D6;--strength:#7B4B94}
 .header{background:linear-gradient(180deg,#FFFFFF,#FAFAF7);border-bottom:1px solid var(--border);padding:26px 32px 0}
 .header-inner{max-width:1120px;margin:0 auto}
 h1{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-0.02em;margin:8px 0 4px}
@@ -137,6 +137,7 @@ td{padding:9px 12px}
       <button class="tab" onclick="showTab('running')">RUNNING</button>
       <button class="tab" onclick="showTab('cycling')">CICLISMO</button>
       <button class="tab" onclick="showTab('swimming')">NATACIÓN</button>
+      <button class="tab" onclick="showTab('strength')">FUERZA</button>
       <button class="tab" onclick="showTab('weight')">PESO</button>
       <button class="tab" onclick="showTab('sleep')">SUEÑO</button>
       <button class="tab" onclick="showTab('calendar')">CALENDARIO</button>
@@ -333,6 +334,25 @@ td{padding:9px 12px}
   </div>
 </div>
 
+<!-- STRENGTH -->
+<div id="panel-strength" class="panel">
+  <div class="pills" id="strength-pills"></div>
+  <div class="card">
+    <div class="card-title" style="color:var(--strength)">🏋️ Récords por ejercicio (mejor set)</div>
+    <div class="records-grid" id="strength-records"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Volumen total por sesión</div>
+    <div class="chart-wrap"><canvas id="chart-strength"></canvas></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden">
+    <table>
+      <thead><tr><th>Fecha</th><th>Sesión</th><th>Duración</th><th>Ejercicios</th><th class="r">Volumen (kg)</th></tr></thead>
+      <tbody id="table-strength"></tbody>
+    </table>
+  </div>
+</div>
+
 <!-- WEIGHT -->
 <div id="panel-weight" class="panel">
   <div class="pills" id="weight-pills"></div>
@@ -426,7 +446,7 @@ td{padding:9px 12px}
 </div><!-- /content -->
 
 <script>
-let WEIGHT_DATA, WEIGHT_YEARLY, WEIGHT_MONTHLY, ACTIVITIES_DATA, SLEEP_DATA, KNOWN_EVENTS, YEARLY;
+let WEIGHT_DATA, WEIGHT_YEARLY, WEIGHT_MONTHLY, ACTIVITIES_DATA, SLEEP_DATA, KNOWN_EVENTS, YEARLY, STRENGTH_DATA;
 
 // Solo se cargan archivos de datos brutos (una fila por actividad / por día de
 // peso). Todos los resúmenes (por año, por mes, por deporte) se calculan aquí
@@ -434,13 +454,14 @@ let WEIGHT_DATA, WEIGHT_YEARLY, WEIGHT_MONTHLY, ACTIVITIES_DATA, SLEEP_DATA, KNO
 // resumen desincronizado o con una clave que falte, porque no existen
 // resúmenes pregenerados que puedan quedarse obsoletos o incompletos.
 async function loadData(){
-  const [weight, activities, sleep, known] = await Promise.all([
+  const [weight, activities, sleep, known, strength] = await Promise.all([
     fetch('data/weight.json').then(r=>r.json()),
     fetch('data/activities.json').then(r=>r.json()),
     fetch('data/sleep.json').then(r=>r.json()),
     fetch('data/known_events.json').then(r=>r.json()),
+    fetch('data/strength.json').then(r=>r.json()).catch(()=>[]),
   ]);
-  WEIGHT_DATA = weight; ACTIVITIES_DATA = activities; SLEEP_DATA = sleep; KNOWN_EVENTS = known;
+  WEIGHT_DATA = weight; ACTIVITIES_DATA = activities; SLEEP_DATA = sleep; KNOWN_EVENTS = known; STRENGTH_DATA = strength;
   buildDashboard();
 }
 loadData().catch(err=>{
@@ -521,7 +542,7 @@ function getSport(y, sport){ return (YEARLY[y] && YEARLY[y][sport]) || {km:0,h:0
   renderOverviewCard('ov-swim-stats', 'swim', 'm');
 })();
 
-const C = {run:"#E8752C",bike:"#2E7DBF",swim:"#1EA6A0",accent:"#F2994A",muted:"#74827D",border:"#E2E7E3",card:"#FFFFFF",weight:"#2F6B4F",hike:"#4F9A55",sleep:"#6FA8D6",ink:"#1E2A26"};
+const C = {run:"#E8752C",bike:"#2E7DBF",swim:"#1EA6A0",accent:"#F2994A",muted:"#74827D",border:"#E2E7E3",card:"#FFFFFF",weight:"#2F6B4F",hike:"#4F9A55",sleep:"#6FA8D6",ink:"#1E2A26",strength:"#7B4B94"};
 
 // ============ FORMATTING HELPERS ============
 // Duration in "1h 15m 48s" style, never raw decimal minutes/hours.
@@ -1108,6 +1129,68 @@ function renderSleepMonthView(year){
 window._chartDrillBack = window._chartDrillBack || {};
 window._chartDrillBack["chart-sleep"] = renderSleepYearView;
 renderSleepYearView();
+
+// ============ STRENGTH TAB (Hevy) ============
+(function(){
+  const sessions = (STRENGTH_DATA || []).slice().sort((a,b)=> a.date.localeCompare(b.date));
+  if(!sessions.length) return;
+
+  const totalSessions = sessions.length;
+  const totalVolume = sessions.reduce((s,w)=> s + (w.total_volume_kg||0), 0);
+  const avgVolume = totalSessions ? totalVolume/totalSessions : 0;
+  const last30 = sessions.filter(w=> (Date.now() - new Date(w.date).getTime()) <= 30*24*3600*1000).length;
+
+  document.getElementById('strength-pills').innerHTML = `
+    <div class="pill" style="border-left:3px solid var(--strength)"><div class="pill-lbl">Sesiones totales</div><div class="pill-val" style="color:var(--strength)">${totalSessions}</div></div>
+    <div class="pill" style="border-left:3px solid var(--strength)"><div class="pill-lbl">Volumen total</div><div class="pill-val" style="color:var(--strength)">${Math.round(totalVolume).toLocaleString('es-ES')} kg</div></div>
+    <div class="pill" style="border-left:3px solid var(--strength)"><div class="pill-lbl">Volumen medio/sesión</div><div class="pill-val" style="color:var(--strength)">${Math.round(avgVolume).toLocaleString('es-ES')} kg</div></div>
+    <div class="pill" style="border-left:3px solid var(--strength)"><div class="pill-lbl">Sesiones últimos 30 días</div><div class="pill-val" style="color:var(--strength)">${last30}</div></div>`;
+
+  const bestByExercise = {};
+  sessions.forEach(w=>{
+    (w.exercises||[]).forEach(ex=>{
+      (ex.sets||[]).forEach(s=>{
+        if(s.weight_kg == null || s.reps == null) return;
+        const key = ex.name || 'Sin nombre';
+        const est1RM = s.weight_kg * (1 + s.reps/30); // fórmula de Epley
+        if(!bestByExercise[key] || est1RM > bestByExercise[key].est1RM){
+          bestByExercise[key] = { weight: s.weight_kg, reps: s.reps, est1RM, date: w.date };
+        }
+      });
+    });
+  });
+
+  const recordEntries = Object.entries(bestByExercise).sort((a,b)=> b[1].est1RM - a[1].est1RM).slice(0, 8);
+
+  document.getElementById('strength-records').innerHTML = recordEntries.map(([name, r])=>`
+    <div class="rec-card" style="border-top:2px solid var(--strength)">
+      <div class="rec-dist" style="color:var(--strength)">${name}</div>
+      <div class="rec-time">${r.weight} kg × ${r.reps}</div>
+      <div class="rec-sub">1RM est. ${Math.round(r.est1RM)} kg</div>
+      <div class="rec-sub">${r.date}</div>
+    </div>`).join('');
+
+  const labels = sessions.map(w=>w.date);
+  const volumes = sessions.map(w=>Math.round(w.total_volume_kg||0));
+
+  new Chart(document.getElementById("chart-strength"),{
+    type:"bar",
+    data:{labels, datasets:[{label:"Volumen (kg)", data:volumes, backgroundColor:C.strength, borderRadius:3}]},
+    options:{responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:(ctx)=> `${ctx.parsed.y.toLocaleString('es-ES')} kg`}}},
+      scales:{x:noTick, y:noTick}}
+  });
+
+  document.getElementById('table-strength').innerHTML = sessions.slice().reverse().map(w=>`
+    <tr>
+      <td>${w.date}</td>
+      <td>${w.title || ''}</td>
+      <td>${w.duration_min != null ? w.duration_min+' min' : '—'}</td>
+      <td>${w.exercise_count ?? (w.exercises||[]).length}</td>
+      <td class="r">${Math.round(w.total_volume_kg||0).toLocaleString('es-ES')}</td>
+    </tr>`).join('');
+})();
 
 // ============ CALENDAR TAB ============
 const actByDate = {};
