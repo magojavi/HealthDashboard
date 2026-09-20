@@ -1,0 +1,38 @@
+name: Sync Hevy
+
+on:
+  schedule:
+    # 04:00 UTC — adjust if you want it to land at a specific Berlin-time hour;
+    # Berlin is UTC+1/+2 depending on DST, same caveat as your other sync jobs
+    - cron: "0 4 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  sync-hevy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Hevy sync
+        env:
+          HEVY_API_KEY: ${{ secrets.HEVY_API_KEY }}
+        run: python sync-hevy.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/strength.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Sync Hevy workouts"
+          git pull --rebase
+          git push
