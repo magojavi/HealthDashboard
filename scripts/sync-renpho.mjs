@@ -122,6 +122,15 @@ async function authenticate() {
   const deviceData = JSON.parse(rawDeviceData);
   const extractedUserIdGroups = extractUserIdGroupsAsStrings(rawDeviceData);
 
+  // DEBUG: dump exactly what Renpho's device/count endpoint returned so we
+  // can see if the response shape changed (field renamed, nested differently,
+  // etc.) instead of failing blind on `deviceData.scale`. Remove once fixed.
+  console.log('--- DEBUG raw device/count response ---');
+  console.log(rawDeviceData);
+  console.log('--- DEBUG parsed keys:', Object.keys(deviceData));
+  console.log('--- DEBUG extractedUserIdGroups:', JSON.stringify(extractedUserIdGroups));
+  console.log('--- END DEBUG ---');
+
   if (!deviceData.scale || deviceData.scale.length === 0) {
     throw new Error('No scale devices found on this Renpho account.');
   }
