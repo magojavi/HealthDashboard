@@ -1984,5 +1984,325 @@
         "total_volume_kg": 0.0
       }
     ]
+  },
+  {
+    "hevy_id": "75c1d775-5a9d-4c2a-bc78-c3624acd21dc",
+    "date": "2026-10-07",
+    "title": "Cuerpo completo 1",
+    "start_time": "2026-10-07T17:16:41+00:00",
+    "end_time": "2026-10-07T18:32:34+00:00",
+    "duration_min": 75.9,
+    "exercise_count": 10,
+    "total_volume_kg": 14294.0,
+    "exercises": [
+      {
+        "name": "Press de Pecho (Máquina)",
+        "sets": [
+          {
+            "type": "warmup",
+            "weight_kg": 25,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 40,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 45,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 45,
+            "reps": 13,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 1905.0
+      },
+      {
+        "name": "Máquina de Remo",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": null,
+            "distance_meters": 500,
+            "duration_seconds": 120,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": null,
+            "distance_meters": 500,
+            "duration_seconds": 117,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": null,
+            "distance_meters": 500,
+            "duration_seconds": 128,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 0.0
+      },
+      {
+        "name": "Vuelos Posteriores (Máquina)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 30,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 30,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 30,
+            "reps": 13,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 1110.0
+      },
+      {
+        "name": "Elevación Lateral (Máquina)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 25,
+            "reps": 14,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 30,
+            "reps": 14,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 30,
+            "reps": 15,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 1220.0
+      },
+      {
+        "name": "Jalón de Tríceps en Polea",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 90,
+            "reps": 15,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 95,
+            "reps": 15,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 95,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 3915.0
+      },
+      {
+        "name": "Curl predicador (máquina)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 25,
+            "reps": 13,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 25,
+            "reps": 14,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 30,
+            "reps": 14,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 1095.0
+      },
+      {
+        "name": "Abdominal Corto (Máquina)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 50,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 60,
+            "reps": 15,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 65,
+            "reps": 15,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 2475.0
+      },
+      {
+        "name": "Jalón al Pecho (Máquina)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 50,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 50,
+            "reps": 13,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 50,
+            "reps": 14,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 1950.0
+      },
+      {
+        "name": "Press de Hombros (Barra)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 18,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 18,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 16,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 624.0
+      },
+      {
+        "name": "Plancha",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": null,
+            "distance_meters": null,
+            "duration_seconds": 45,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": null,
+            "distance_meters": null,
+            "duration_seconds": 60,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": null,
+            "distance_meters": null,
+            "duration_seconds": 75,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 0.0
+      }
+    ]
   }
 ]
