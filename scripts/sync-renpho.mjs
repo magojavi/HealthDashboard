@@ -290,5 +290,8 @@ async function main() {
 
 main().catch((err) => {
   console.error('Sync failed:', err);
+  // Surface the reason as a GitHub annotation so it is visible without the raw logs.
+  const msg = String((err && (err.stack || err.message)) || err).replace(/\r?\n/g, '%0A');
+  console.log(`::error title=Renpho sync failed::${msg}`);
   process.exit(1);
 });
