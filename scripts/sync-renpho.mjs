@@ -105,9 +105,15 @@ async function authenticate() {
     body: JSON.stringify({ encryptData: encryptAES(JSON.stringify(loginData)) })
   });
 
-  const loginJson = await loginResponse.json();
+  const loginText = await loginResponse.text();
+  let loginJson;
+  try {
+    loginJson = JSON.parse(loginText);
+  } catch {
+    throw new Error(`Authentication failed: HTTP ${loginResponse.status}, non-JSON body: ${loginText.slice(0, 300)}`);
+  }
   if (loginJson.code !== 101) {
-    throw new Error(`Authentication failed: ${loginJson.msg}`);
+    throw new Error(`Authentication failed: HTTP ${loginResponse.status}, code=${loginJson.code}, msg=${loginJson.msg}, body=${loginText.slice(0, 300)}`);
   }
 
   const rawLoginData = decryptAES(loginJson.data);
