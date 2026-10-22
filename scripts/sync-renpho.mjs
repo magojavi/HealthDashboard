@@ -67,7 +67,8 @@ async function postEncryptedRaw(session, path, requestBody, emptyBody = false) {
       token: session.token,
       userId: session.userId,
       appVersion: '7.0.0',
-      platform: 'android'
+      platform: 'android',
+      'User-Agent': 'okhttp/4.9.3'
     },
     body: JSON.stringify({
       encryptData: emptyBody ? encryptEmptyBytes() : encryptAES(JSON.stringify(requestBody ?? {}))
@@ -76,7 +77,7 @@ async function postEncryptedRaw(session, path, requestBody, emptyBody = false) {
 
   const responseJson = await response.json();
   if (responseJson.code !== 101) {
-    throw new Error(`API call failed for ${path}: code=${responseJson.code}, msg=${responseJson.msg}`);
+    throw new Error(`API call failed for ${path}: code=${responseJson.code}, msg=${responseJson.msg ?? responseJson.message}`);
   }
   if (!responseJson.data) {
     throw new Error(`API call failed for ${path}: no data in response`);
@@ -99,9 +100,17 @@ async function authenticate() {
     bindingList: { deviceTypes: ['2'] }
   };
 
+  // Since ~2026-10-19 Renpho rejects the login with code -114 ("Decryption
+  // failed") unless the app headers are also sent on the login request
+  // (see danvaneijck/renpho-api#12).
   const loginResponse = await fetch(`${API_BASE}/renpho-aggregation/user/login`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      appVersion: '7.0.0',
+      platform: 'android',
+      'User-Agent': 'okhttp/4.9.3'
+    },
     body: JSON.stringify({ encryptData: encryptAES(JSON.stringify(loginData)) })
   });
 
@@ -113,7 +122,7 @@ async function authenticate() {
     throw new Error(`Authentication failed: HTTP ${loginResponse.status}, non-JSON body: ${loginText.slice(0, 300)}`);
   }
   if (loginJson.code !== 101) {
-    throw new Error(`Authentication failed: HTTP ${loginResponse.status}, code=${loginJson.code}, msg=${loginJson.msg}, body=${loginText.slice(0, 300)}`);
+    throw new Error(`Authentication failed: HTTP ${loginResponse.status}, code=${loginJson.code}, msg=${loginJson.msg ?? loginJson.message}, body=${loginText.slice(0, 300)}`);
   }
 
   const rawLoginData = decryptAES(loginJson.data);
