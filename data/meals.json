@@ -155,5 +155,18 @@
   ["2026-11-08", "tarde", "Fiambre de pavo", "80 g", 80, 16, 1, 1, 1.6],
   ["2026-11-08", "cena", "Schupfnudeln salteados con aceite", "250 g + 5 g aceite", 495, 10, 8, 90, 1.5],
   ["2026-11-08", "cena", "Pollo casero", "150 g", 250, 46, 5, 0, 0.8],
-  ["2026-11-08", "cena", "Ensalada/verdura con limón", "1", 40, 2, 0, 8, 0]
+  ["2026-11-08", "cena", "Ensalada/verdura con limón", "1", 40, 2, 0, 8, 0],
+  ["2026-11-09", "comida", "Ensalada EDK (~790 g, aliño EDK)", "1", 615, 54, 28, 32, 3.7],
+  ["2026-11-09", "cena", "Lechuga iceberg", "1 (~500 g)", 70, 4.5, 0.5, 9, 0],
+  ["2026-11-09", "cena", "Pepino", "½", 26, 1, 0, 3.5, 0],
+  ["2026-11-09", "cena", "Tomate", "1", 27, 1.5, 0.5, 4, 0],
+  ["2026-11-09", "cena", "Patros leicht (etiqueta)", "50 g", 110, 10, 7.5, 0.3, 1.35],
+  ["2026-11-09", "cena", "Mozzarella leicht Milbona (etiqueta)", "125 g", 196, 24, 10.6, 1.3, 0.6],
+  ["2026-11-09", "cena", "Aliño habitual con 10 g de soja", "1", 98, 2, 9, 2, 1.65],
+  ["2026-11-09", "cena", "Aceitunas con pasta de pimiento", "10", 52, 0.5, 5, 0.5, 1.4],
+  ["2026-11-09", "cena", "Pepinillos", "~100 g", 25, 0.5, 0, 4.5, 1.8],
+  ["2026-11-09", "cena", "Fiambre casero de pollo (4 g sal/kg)", "250 g", 375, 77.5, 7.5, 0, 1.3],
+  ["2026-11-09", "cena", "Huevo duro", "1", 72, 7, 5, 0.5, 0.3],
+  ["2026-11-09", "cena", "Magerquark", "250 g", 170, 30, 0.5, 10, 0.2],
+  ["2026-11-09", "cena", "Mango", "⅓ (~110 g)", 66, 1, 0.5, 15, 0]
 ]
