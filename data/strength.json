@@ -6114,8 +6114,8 @@
     "start_time": "2026-11-15T17:36:13+00:00",
     "end_time": "2026-11-15T19:02:21+00:00",
     "duration_min": 86.1,
-    "exercise_count": 8,
-    "total_volume_kg": 3336.0,
+    "exercise_count": 11,
+    "total_volume_kg": 5328.0,
     "exercises": [
       {
         "name": "Swing con Pesa Rusa",
@@ -6186,11 +6186,11 @@
         "total_volume_kg": 1044.0
       },
       {
-        "name": "Remo Bajo (Suspensión)",
+        "name": "Jalón con cuerda de brazos rectos",
         "sets": [
           {
             "type": "normal",
-            "weight_kg": null,
+            "weight_kg": 11,
             "reps": 12,
             "distance_meters": null,
             "duration_seconds": null,
@@ -6198,7 +6198,7 @@
           },
           {
             "type": "normal",
-            "weight_kg": null,
+            "weight_kg": 11,
             "reps": 12,
             "distance_meters": null,
             "duration_seconds": null,
@@ -6206,88 +6206,14 @@
           },
           {
             "type": "normal",
-            "weight_kg": null,
+            "weight_kg": 11,
             "reps": 12,
             "distance_meters": null,
             "duration_seconds": null,
             "rpe": null
           }
         ],
-        "total_volume_kg": 0.0
-      },
-      {
-        "name": "Elevación Lateral (Banda)",
-        "sets": [
-          {
-            "type": "normal",
-            "weight_kg": 6,
-            "reps": 6,
-            "distance_meters": null,
-            "duration_seconds": null,
-            "rpe": null
-          },
-          {
-            "type": "normal",
-            "weight_kg": 6,
-            "reps": 12,
-            "distance_meters": null,
-            "duration_seconds": null,
-            "rpe": null
-          },
-          {
-            "type": "normal",
-            "weight_kg": 6,
-            "reps": 12,
-            "distance_meters": null,
-            "duration_seconds": null,
-            "rpe": null
-          }
-        ],
-        "total_volume_kg": 180.0
-      },
-      {
-        "name": "Halo con pesa rusa",
-        "sets": [
-          {
-            "type": "normal",
-            "weight_kg": 12,
-            "reps": 12,
-            "distance_meters": null,
-            "duration_seconds": null,
-            "rpe": null
-          },
-          {
-            "type": "normal",
-            "weight_kg": 12,
-            "reps": 12,
-            "distance_meters": null,
-            "duration_seconds": null,
-            "rpe": null
-          },
-          {
-            "type": "normal",
-            "weight_kg": 12,
-            "reps": 16,
-            "distance_meters": null,
-            "duration_seconds": null,
-            "rpe": null
-          }
-        ],
-        "total_volume_kg": 480.0
-      },
-      {
-        "name": "Flexiones",
-        "sets": [
-          {
-            "type": "normal",
-            "weight_kg": null,
-            "reps": 15,
-            "distance_meters": null,
-            "duration_seconds": null,
-            "rpe": null
-          }
-        ],
-        "total_volume_kg": 0.0
+        "total_volume_kg": 396.0
       },
       {
         "name": "Tirón Alto con Pesa Rusa",
@@ -6320,7 +6246,67 @@
         "total_volume_kg": 432.0
       },
       {
-        "name": "Arrancada con Pesa Rusa",
+        "name": "Peso Rumano + Remo",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 28,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 28,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 28,
+            "reps": 8,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 840.0
+      },
+      {
+        "name": "Giro Con Cable",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 11,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 11,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 11,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 396.0
+      },
+      {
+        "name": "Peso Muerto Rumano a Una Pierna (Mancuerna)",
         "sets": [
           {
             "type": "normal",
@@ -6348,6 +6334,110 @@
           }
         ],
         "total_volume_kg": 432.0
+      },
+      {
+        "name": "Cargada Y Press (presa Rusa)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 12,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 12,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 12,
+            "reps": 8,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 360.0
+      },
+      {
+        "name": "Halo con pesa rusa",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 12,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 12,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 12,
+            "reps": 16,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 480.0
+      },
+      {
+        "name": "Elevación Lateral (Banda)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 6,
+            "reps": 6,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 6,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 6,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 180.0
+      },
+      {
+        "name": "Flexiones",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": 15,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 0.0
       }
     ]
   }
