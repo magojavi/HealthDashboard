@@ -252,5 +252,15 @@
 ["2026-11-16", "Cena", "Fiambre de pollo casero (pizza)", "~30 g", 45, 9.5, 1, 0, 0.2],
 ["2026-11-16", "Cena", "Patatas al horno con cebolla, limón y aceite", "250 g crudo + ~5 g aceite", 258, 5.5, 5.3, 45, 0.8],
 ["2026-11-16", "Cena", "Fiambre de pollo casero", "100 g", 150, 31, 3, 0.5, 0.5],
-["2026-11-16", "Cena", "Cerveza 0,0", "2 × 33 cl", 140, 1, 0, 28, 0]
+["2026-11-16", "Cena", "Cerveza 0,0", "2 × 33 cl", 140, 1, 0, 28, 0],
+["2026-11-17", "Comida", "Restos ensalada de lentejas", "~150 g", 130, 7, 4, 15, 0.6],
+["2026-11-17", "Comida", "Lechuga", "½", 35, 2, 0.3, 4.5, 0],
+["2026-11-17", "Comida", "Huevo duro", "1", 72, 7, 5, 0.5, 0.2],
+["2026-11-17", "Comida", "Atún en aceite escurrido", "1 lata", 125, 15, 7, 0, 0.6],
+["2026-11-17", "Comida", "Aliño habitual", "1", 105, 3, 9, 3, 2.5],
+["2026-11-17", "Comida", "Fiambre de pollo casero", "250 g", 375, 77.5, 7.5, 1.5, 1.4],
+["2026-11-17", "Tarde", "Plátano", "1", 105, 1.5, 0.5, 27, 0],
+["2026-11-17", "Cena", "Linguine allo scoglio casera (gambas, mejillones, chirlas, cherry, AOVE, palo cortado)", "1/3 de la olla (~147 g pasta seca)", 805, 42.5, 20, 109, 1.5],
+["2026-11-17", "Cena", "Queso payoyo", "2 cuñitas (~30 g)", 120, 7.5, 10, 0, 0.5],
+["2026-11-17", "Cena", "Picos (Carrefour)", "5 (~10 g)", 38, 1, 0, 8, 0.3]
 ]
