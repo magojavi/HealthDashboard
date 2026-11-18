@@ -260,7 +260,14 @@
 ["2026-11-17", "Comida", "Aliño habitual", "1", 105, 3, 9, 3, 2.5],
 ["2026-11-17", "Comida", "Fiambre de pollo casero", "250 g", 375, 77.5, 7.5, 1.5, 1.4],
 ["2026-11-17", "Tarde", "Plátano", "1", 105, 1.5, 0.5, 27, 0],
-["2026-11-17", "Cena", "Linguine allo scoglio casera (gambas, mejillones, chirlas, cherry, AOVE, palo cortado)", "1/3 de la olla (~147 g pasta seca)", 805, 42.5, 20, 109, 1.5],
 ["2026-11-17", "Cena", "Queso payoyo", "2 cuñitas (~30 g)", 120, 7.5, 10, 0, 0.5],
-["2026-11-17", "Cena", "Picos (Carrefour)", "5 (~10 g)", 38, 1, 0, 8, 0.3]
+["2026-11-17", "Cena", "Picos (Carrefour)", "5 (~10 g)", 38, 1, 0, 8, 0.3],
+["2026-11-17", "Cena", "Linguine (pasta seca)", "~147 g", 513, 18.3, 2.3, 104, 0.3],
+["2026-11-17", "Cena", "Gambas peladas", "~67 g limpias", 60, 13.3, 0.7, 0, 0.2],
+["2026-11-17", "Cena", "Mejillones (carne)", "~67 g (de ~270 g con concha)", 57, 8, 1.5, 2.3, 0.5],
+["2026-11-17", "Cena", "Chirlas (carne)", "~17 g (de ~107 g con concha)", 12, 2, 0.2, 0.3, 0.1],
+["2026-11-17", "Cena", "Tomate cherry", "~8 (~100 g)", 18, 0.9, 0.2, 2.7, 0],
+["2026-11-17", "Cena", "Aceite de oliva virgen extra (fumet, sofrito, mantecatura)", "15 g", 135, 0, 15, 0, 0],
+["2026-11-17", "Cena", "Palo cortado (cocinado)", "~20 ml", 10, 0, 0, 0.3, 0],
+["2026-11-17", "Cena", "Ajo, perejil, ralladura de limón, pimentón picante y fumet", "", 10, 0.3, 0, 1.7, 0.4]
 ]
