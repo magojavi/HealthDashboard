@@ -287,5 +287,14 @@
 ["2026-11-18", "Cena", "Mini burger de retinta con salsa de trufa y payoyo", "1", 410, 19, 28, 21, 1.5],
 ["2026-11-18", "Cena", "Tarta de queso", "2 cucharadas (~50 g)", 165, 3.5, 11, 13, 0.3],
 ["2026-11-18", "Cena", "Tosta de salmorejo con anchoa/sardina", "½", 110, 4, 4, 14, 0.9],
-["2026-11-18", "Cena", "Tosta de piquillo con ventresca", "½", 135, 7, 6, 13, 0.7]
+["2026-11-18", "Cena", "Tosta de piquillo con ventresca", "½", 135, 7, 6, 13, 0.7],
+["2026-11-19", "Comida", "Restos linguine allo scoglio", "~50 g pasta seca + marisco", 277, 14.5, 7, 38, 0.5],
+["2026-11-19", "Comida", "Cinta de lomo a la plancha", "3 filetes finos (~60 g)", 138, 18, 7, 0, 0.4],
+["2026-11-19", "Comida", "Gazpacho fresco (55 kcal/100 ml)", "200 ml", 110, 1.5, 9, 5, 1.6],
+["2026-11-19", "Comida", "Ensalada mozzarella light, rúcula, rabanitos, pepino + aliño habitual", "½", 175, 15, 10, 6, 1.6],
+["2026-11-19", "Merienda", "Yogur griego 2 % con frutos rojos", "200 g + ~80 g", 175, 15, 4, 15, 0.2],
+["2026-11-19", "Cena", "Tortilla francesa", "3 huevos + 5 g aceite", 261, 20, 20, 1, 0.8],
+["2026-11-19", "Cena", "Queso payoyo", "100 g (50 en tortilla + 50 aparte)", 400, 25, 33, 0, 1.6],
+["2026-11-19", "Cena", "Ceviche de corvina", "½ (~225 g pescado)", 270, 43, 5, 12, 1.5],
+["2026-11-19", "Cena", "Palo cortado", "2 copitas", 170, 0, 0, 2, 0]
 ]
