@@ -6440,5 +6440,257 @@
         "total_volume_kg": 0.0
       }
     ]
+  },
+  {
+    "hevy_id": "74d1f897-01cf-4db7-b671-5b281b9bb2af",
+    "date": "2026-11-20",
+    "title": "Entrenamiento nocturno 🏋️",
+    "start_time": "2026-11-20T18:33:45+00:00",
+    "end_time": "2026-11-20T19:34:00+00:00",
+    "duration_min": 60.2,
+    "exercise_count": 8,
+    "total_volume_kg": 2318.0,
+    "exercises": [
+      {
+        "name": "Elevación Frontal (Banda)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 5,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 5,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 5,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 150.0
+      },
+      {
+        "name": "Elevación Lateral (Banda)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 6,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 6,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 6,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 180.0
+      },
+      {
+        "name": "Extensión Tríceps (Suspensión)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": null,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 0.0
+      },
+      {
+        "name": "Press de Banca (Mancuerna)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 14,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 14,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 14,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 476.0
+      },
+      {
+        "name": "Remo con Mancuerna",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 14,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 14,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 14,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 504.0
+      },
+      {
+        "name": "Press de Hombros (Mancuerna)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 24,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 20,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 20,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 728.0
+      },
+      {
+        "name": "Elevación Frontal (Mancuerna)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 4,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 4,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 4,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 144.0
+      },
+      {
+        "name": "Elevación Lateral (Mancuerna)",
+        "sets": [
+          {
+            "type": "normal",
+            "weight_kg": 4,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 4,
+            "reps": 12,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          },
+          {
+            "type": "normal",
+            "weight_kg": 4,
+            "reps": 10,
+            "distance_meters": null,
+            "duration_seconds": null,
+            "rpe": null
+          }
+        ],
+        "total_volume_kg": 136.0
+      }
+    ]
   }
 ]
