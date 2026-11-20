@@ -6449,7 +6449,7 @@
     "end_time": "2026-11-20T19:34:00+00:00",
     "duration_min": 60.2,
     "exercise_count": 8,
-    "total_volume_kg": 2318.0,
+    "total_volume_kg": 1954.0,
     "exercises": [
       {
         "name": "Elevación Frontal (Banda)",
@@ -6606,7 +6606,7 @@
         "sets": [
           {
             "type": "normal",
-            "weight_kg": 24,
+            "weight_kg": 12,
             "reps": 12,
             "distance_meters": null,
             "duration_seconds": null,
@@ -6614,7 +6614,7 @@
           },
           {
             "type": "normal",
-            "weight_kg": 20,
+            "weight_kg": 10,
             "reps": 12,
             "distance_meters": null,
             "duration_seconds": null,
@@ -6622,14 +6622,14 @@
           },
           {
             "type": "normal",
-            "weight_kg": 20,
+            "weight_kg": 10,
             "reps": 10,
             "distance_meters": null,
             "duration_seconds": null,
             "rpe": null
           }
         ],
-        "total_volume_kg": 728.0
+        "total_volume_kg": 364.0
       },
       {
         "name": "Elevación Frontal (Mancuerna)",
