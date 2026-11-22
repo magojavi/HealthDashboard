@@ -296,5 +296,20 @@
 ["2026-11-19", "Cena", "Tortilla francesa", "3 huevos + 5 g aceite", 261, 20, 20, 1, 0.8],
 ["2026-11-19", "Cena", "Queso payoyo", "100 g (50 en tortilla + 50 aparte)", 400, 25, 33, 0, 1.6],
 ["2026-11-19", "Cena", "Ceviche de corvina", "½ (~225 g pescado)", 270, 43, 5, 12, 1.5],
-["2026-11-19", "Cena", "Palo cortado", "2 copitas", 170, 0, 0, 2, 0]
+["2026-11-19", "Cena", "Palo cortado", "2 copitas", 170, 0, 0, 2, 0],
+["2026-11-20", "Comida", "Hamburguesa de retinto", "~170 g crudo", 330, 30, 23, 0, 0.8],
+["2026-11-20", "Comida", "Pan de hamburguesa", "1 (~60 g)", 160, 5, 2.5, 28, 0.6],
+["2026-11-20", "Comida", "Ensalada habitual + aliño", "½", 130, 7, 5, 13.5, 1.3],
+["2026-11-20", "Cena", "Revuelto de espárragos verdes", "3 huevos + espárragos + 5 g aceite", 300, 22, 21, 4, 0.8],
+["2026-11-20", "Cena", "Ensalada habitual + aliño", "½", 130, 7, 5, 13.5, 1.3],
+["2026-11-20", "Cena", "Chicharrones de Cádiz", "~50 g", 175, 10, 15, 0, 1.0],
+["2026-11-20", "Cena", "Gildas", "2", 50, 2, 4.5, 0, 1.2],
+["2026-11-20", "Extra", "Extras no detallados (+25 % del día)", "", 319, 20.8, 19.0, 14.8, 1.8],
+["2026-11-21", "Comida", "Garbanzos con sepia y patatas (casero)", "1 ración", 720, 56, 20, 62, 1.8],
+["2026-11-21", "Comida", "Gambones a la plancha", "3 (~120 g limpios)", 128, 24, 3.5, 0, 0.8],
+["2026-11-21", "Cena", "Sashimi de atún rojo", "250 g", 360, 58, 12.5, 0, 0.1],
+["2026-11-21", "Cena", "Soja, wasabi y jengibre", "", 30, 1, 0, 4, 1.2],
+["2026-11-21", "Cena", "Salmonetes a la plancha", "2 (~140 g limpios)", 163, 25, 7, 0, 0.5],
+["2026-11-21", "Cena", "Ensalada habitual + aliño", "½", 130, 7, 5, 13.5, 1.3],
+["2026-11-21", "Extra", "Extras no detallados (+25 % del día)", "", 383, 42.8, 12.0, 19.9, 1.4]
 ]
