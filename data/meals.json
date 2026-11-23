@@ -311,5 +311,14 @@
 ["2026-11-21", "Cena", "Soja, wasabi y jengibre", "", 30, 1, 0, 4, 1.2],
 ["2026-11-21", "Cena", "Salmonetes a la plancha", "2 (~140 g limpios)", 163, 25, 7, 0, 0.5],
 ["2026-11-21", "Cena", "Ensalada habitual + aliño", "½", 130, 7, 5, 13.5, 1.3],
-["2026-11-21", "Extra", "Extras no detallados (+25 % del día)", "", 383, 42.8, 12.0, 19.9, 1.4]
+["2026-11-21", "Extra", "Extras no detallados (+25 % del día)", "", 383, 42.8, 12.0, 19.9, 1.4],
+["2026-11-22", "Día", "Fiambre de pollo casero", "550 g", 825, 170.5, 16.5, 3, 2.8],
+["2026-11-22", "Día", "Regañás", "60 g", 258, 7, 9, 40, 1.2],
+["2026-11-22", "Día", "Yogur proteico", "2 × 200 g", 240, 40, 0.5, 14, 0.2],
+["2026-11-22", "Cena", "Lechuga iceberg", "500 g", 70, 4.5, 0.5, 9, 0],
+["2026-11-22", "Cena", "Huevos duros", "2", 144, 13.5, 10, 1, 0.4],
+["2026-11-22", "Cena", "Palmitos", "6 (~150 g)", 42, 4, 0.3, 7, 1.0],
+["2026-11-22", "Cena", "Atún al natural", "3 latas (~170 g escurrido)", 180, 40, 1.5, 0, 1.2],
+["2026-11-22", "Cena", "Aliño habitual (6 g aceite)", "1", 96, 3, 8, 3, 2.5],
+["2026-11-22", "Cena", "Pan de cereales", "1 pistolín pequeño (~50 g)", 130, 5, 2, 23, 0.6]
 ]
