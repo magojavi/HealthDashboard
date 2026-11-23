@@ -320,5 +320,20 @@
 ["2026-11-22", "Cena", "Palmitos", "6 (~150 g)", 42, 4, 0.3, 7, 1.0],
 ["2026-11-22", "Cena", "Atún al natural", "3 latas (~170 g escurrido)", 180, 40, 1.5, 0, 1.2],
 ["2026-11-22", "Cena", "Aliño habitual (6 g aceite)", "1", 96, 3, 8, 3, 2.5],
-["2026-11-22", "Cena", "Pan de cereales", "1 pistolín pequeño (~50 g)", 130, 5, 2, 23, 0.6]
+["2026-11-22", "Cena", "Pan de cereales", "1 pistolín pequeño (~50 g)", 130, 5, 2, 23, 0.6],
+["2026-11-23", "Comida", "Nigiri de salmón crudo (Ishin)", "4", 240, 14, 8, 28, 0.8],
+["2026-11-23", "Comida", "Nigiri de salmón flambeado (Ishin)", "3", 180, 10.5, 6, 21, 0.6],
+["2026-11-23", "Comida", "Mayonesa japonesa (flambeados)", "3 cucharaditas", 120, 0, 13.5, 0, 0.3],
+["2026-11-23", "Comida", "Makis", "6", 180, 6, 2.5, 33, 0.6],
+["2026-11-23", "Comida", "Gunkan de alga y kimchi", "2", 90, 2, 0.5, 18, 0.6],
+["2026-11-23", "Comida", "Sopa de miso", "1", 40, 3, 1.5, 4, 1.8],
+["2026-11-23", "Comida", "Soja y wasabi", "~20 ml", 17, 1.5, 0, 2, 3.2],
+["2026-11-23", "Merienda", "Plátano", "1", 105, 1.5, 0.5, 27, 0],
+["2026-11-23", "Merienda", "Quicos", "5 (~8 g)", 35, 0.5, 1.5, 5, 0.2],
+["2026-11-23", "Cena", "Pechuga de pollo a la plancha", "400 g crudo + 3 g aceite", 467, 92, 7, 0, 0.3],
+["2026-11-23", "Cena", "Mostaza", "~10 g", 15, 0.5, 0.5, 0.5, 0.6],
+["2026-11-23", "Cena", "Lechuga iceberg", "1 (~500 g)", 70, 4.5, 0.5, 9, 0],
+["2026-11-23", "Cena", "Cebolleta y champiñones", "1 + ~5", 36, 4, 0.3, 3, 0],
+["2026-11-23", "Cena", "Huevos duros", "2", 144, 13.5, 10, 1, 0.4],
+["2026-11-23", "Cena", "Aliño habitual", "1", 105, 3, 9, 3, 2.5]
 ]
