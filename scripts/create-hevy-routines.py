@@ -29,7 +29,9 @@ def call(method, path, body=None):
         try:
             with urlopen(req, timeout=30) as r:
                 txt = r.read().decode()
-                return json.loads(txt) if txt.strip() else {}
+                if not txt.strip(): return {}
+                try: return json.loads(txt)
+                except ValueError: return {"id": txt.strip().strip('"')}
         except HTTPError as e:
             if e.code == 429 and attempt < 3:
                 time.sleep(5 * (attempt + 1)); continue
