@@ -1,0 +1,23 @@
+name: Create Hevy routines
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dryrun or create"
+        required: true
+        default: "dryrun"
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Create routines
+        env:
+          HEVY_API_KEY: ${{ secrets.HEVY_API_KEY }}
+          MODE: ${{ inputs.mode }}
+        run: python scripts/create-hevy-routines.py

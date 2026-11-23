@@ -1,0 +1,56 @@
+{
+  "routines": [
+    {
+      "title": "Día 1 v2",
+      "notes": "Mixta: 4 dinámicos + 6 máquinas + plancha. 8–12 reps, sube peso tras 3×12. Tras curar la hemorroide: step-up → cargada y press (KB).",
+      "exercises": [
+        {"match": ["Curl + Press de Hombros (Mancuerna)", "Curl y Press (Mancuerna)", "Dumbbell Curl to Press", "Curl to Press (Dumbbell)", "Bicep Curl to Shoulder Press"],
+         "custom": {"title": "Curl + Press de Hombros (Mancuerna)", "exercise_type": "weight_reps", "equipment_category": "dumbbell", "muscle_group": "shoulders", "other_muscles": ["biceps", "triceps"]},
+         "rest_seconds": 90, "notes": "8 kg por mancuerna", "sets": [{"weight_kg": 8, "reps": 10}, {"weight_kg": 8, "reps": 10}, {"weight_kg": 8, "reps": 10}]},
+        {"match": ["Flexiones", "Flexión", "Push Up", "Push Ups"],
+         "custom": {"title": "Flexiones", "exercise_type": "bodyweight_reps", "equipment_category": "none", "muscle_group": "chest", "other_muscles": ["triceps", "shoulders"]},
+         "rest_seconds": 60, "notes": "Máx. reps con técnica limpia", "sets": [{"reps": 12}, {"reps": 12}, {"reps": 12}]},
+        {"match": ["Remo Invertido en Anillas", "Remo en Anillas", "Ring Row", "Inverted Row", "Remo Invertido"],
+         "custom": {"title": "Remo Invertido en Anillas", "exercise_type": "bodyweight_reps", "equipment_category": "suspension", "muscle_group": "upper_back", "other_muscles": ["lats", "biceps"]},
+         "rest_seconds": 90, "notes": "10–12 reps; más horizontal = más difícil", "sets": [{"reps": 10}, {"reps": 10}, {"reps": 10}]},
+        {"match": ["Step Up al Banco (Mancuerna)", "Subida al Banco (Mancuerna)", "Step Up (Dumbbell)", "Dumbbell Step Up", "Step Up"],
+         "custom": {"title": "Step Up al Banco (Mancuerna)", "exercise_type": "weight_reps", "equipment_category": "dumbbell", "muscle_group": "quadriceps", "other_muscles": ["glutes", "hamstrings"]},
+         "rest_seconds": 90, "notes": "8 kg por mancuerna, 10 por pierna", "sets": [{"weight_kg": 8, "reps": 10}, {"weight_kg": 8, "reps": 10}, {"weight_kg": 8, "reps": 10}]},
+        {"match": ["Press de Piernas Sentado"], "rest_seconds": 120, "notes": "", "sets": [{"weight_kg": 160, "reps": 12}, {"weight_kg": 160, "reps": 12}, {"weight_kg": 160, "reps": 12}]},
+        {"match": ["Press de Pecho (Máquina)"], "rest_seconds": 120, "notes": "", "sets": [{"weight_kg": 50, "reps": 12}, {"weight_kg": 50, "reps": 12}, {"weight_kg": 50, "reps": 12}]},
+        {"match": ["Remo Iso-Lateral"], "rest_seconds": 120, "notes": "", "sets": [{"weight_kg": 55, "reps": 12}, {"weight_kg": 55, "reps": 12}, {"weight_kg": 55, "reps": 12}]},
+        {"match": ["Jalón al Pecho (Máquina)"], "rest_seconds": 90, "notes": "", "sets": [{"weight_kg": 70, "reps": 12}, {"weight_kg": 70, "reps": 12}, {"weight_kg": 70, "reps": 12}]},
+        {"match": ["Curl de Piernas Acostado (Máquina)"], "rest_seconds": 60, "notes": "", "sets": [{"weight_kg": 45, "reps": 12}, {"weight_kg": 45, "reps": 12}, {"weight_kg": 45, "reps": 12}]},
+        {"match": ["Jalón de Tríceps en Polea"], "rest_seconds": 60, "notes": "", "sets": [{"weight_kg": 45, "reps": 12}, {"weight_kg": 45, "reps": 12}, {"weight_kg": 45, "reps": 12}]},
+        {"match": ["Plancha", "Plank"],
+         "custom": {"title": "Plancha", "exercise_type": "duration", "equipment_category": "none", "muscle_group": "abdominals", "other_muscles": []},
+         "rest_seconds": 60, "notes": "45–60 s", "sets": [{"duration_seconds": 45}, {"duration_seconds": 45}, {"duration_seconds": 45}]}
+      ]
+    },
+    {
+      "title": "Día 2 v2",
+      "notes": "Mixta: 4 dinámicos + 6 máquinas + plancha. 8–12 reps (KB 8–15), sube peso tras 3×12. Tras curar la hemorroide: halo → swing.",
+      "exercises": [
+        {"match": ["Press de Hombros Alterno (Pesa Rusa)", "Press de Hombros (Pesa Rusa)", "Kettlebell Shoulder Press", "Single Arm Kettlebell Press"],
+         "custom": {"title": "Press de Hombros Alterno (Pesa Rusa)", "exercise_type": "weight_reps", "equipment_category": "kettlebell", "muscle_group": "shoulders", "other_muscles": ["triceps", "abdominals"]},
+         "rest_seconds": 90, "notes": "De pie, 12 kg, 10 por lado", "sets": [{"weight_kg": 12, "reps": 10}, {"weight_kg": 12, "reps": 10}, {"weight_kg": 12, "reps": 10}]},
+        {"match": ["Halo con pesa rusa", "Halo con Pesa Rusa", "Kettlebell Halo"], "rest_seconds": 60, "notes": "", "sets": [{"weight_kg": 14, "reps": 12}, {"weight_kg": 14, "reps": 12}, {"weight_kg": 14, "reps": 12}]},
+        {"match": ["Zancada Inversa (Mancuerna)", "Zancada hacia Atrás (Mancuerna)", "Reverse Lunge (Dumbbell)", "Dumbbell Reverse Lunge"],
+         "custom": {"title": "Zancada Inversa (Mancuerna)", "exercise_type": "weight_reps", "equipment_category": "dumbbell", "muscle_group": "quadriceps", "other_muscles": ["glutes", "hamstrings"]},
+         "rest_seconds": 90, "notes": "8 kg por mancuerna, 10 por pierna", "sets": [{"weight_kg": 8, "reps": 10}, {"weight_kg": 8, "reps": 10}, {"weight_kg": 8, "reps": 10}]},
+        {"match": ["Peso Rumano + Remo"],
+         "custom": {"title": "Peso Rumano + Remo", "exercise_type": "weight_reps", "equipment_category": "barbell", "muscle_group": "hamstrings", "other_muscles": ["upper_back", "glutes", "lower_back"]},
+         "rest_seconds": 90, "notes": "Barra 25 kg; sin Valsalva, espalda neutra", "sets": [{"weight_kg": 25, "reps": 10}, {"weight_kg": 25, "reps": 10}, {"weight_kg": 25, "reps": 10}]},
+        {"match": ["Aperturas (Máquina)"], "rest_seconds": 90, "notes": "", "sets": [{"weight_kg": 50, "reps": 12}, {"weight_kg": 50, "reps": 12}, {"weight_kg": 50, "reps": 12}]},
+        {"match": ["Extensión de Pierna"], "rest_seconds": 90, "notes": "", "sets": [{"weight_kg": 65, "reps": 12}, {"weight_kg": 65, "reps": 12}, {"weight_kg": 65, "reps": 12}]},
+        {"match": ["Remo Sentado (Máquina)"], "rest_seconds": 90, "notes": "", "sets": [{"weight_kg": 45, "reps": 12}, {"weight_kg": 45, "reps": 12}, {"weight_kg": 45, "reps": 12}]},
+        {"match": ["Curl predicador (máquina)"], "rest_seconds": 60, "notes": "", "sets": [{"weight_kg": 40, "reps": 12}, {"weight_kg": 40, "reps": 12}, {"weight_kg": 40, "reps": 12}]},
+        {"match": ["Elevación Lateral (Máquina)"], "rest_seconds": 60, "notes": "", "sets": [{"weight_kg": 35, "reps": 12}, {"weight_kg": 35, "reps": 12}, {"weight_kg": 35, "reps": 12}]},
+        {"match": ["Extensión de Espalda (Hiperextensión con peso)"], "rest_seconds": 60, "notes": "Fijo 15 kg", "sets": [{"weight_kg": 15, "reps": 12}, {"weight_kg": 15, "reps": 12}, {"weight_kg": 15, "reps": 12}]},
+        {"match": ["Plancha", "Plank"],
+         "custom": {"title": "Plancha", "exercise_type": "duration", "equipment_category": "none", "muscle_group": "abdominals", "other_muscles": []},
+         "rest_seconds": 60, "notes": "45–60 s", "sets": [{"duration_seconds": 45}, {"duration_seconds": 45}, {"duration_seconds": 45}]}
+      ]
+    }
+  ]
+}
