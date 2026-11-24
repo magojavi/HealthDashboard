@@ -335,5 +335,17 @@
 ["2026-11-23", "Cena", "Lechuga iceberg", "1 (~500 g)", 70, 4.5, 0.5, 9, 0],
 ["2026-11-23", "Cena", "Cebolleta y champiñones", "1 + ~5", 36, 4, 0.3, 3, 0],
 ["2026-11-23", "Cena", "Huevos duros", "2", 144, 13.5, 10, 1, 0.4],
-["2026-11-23", "Cena", "Aliño habitual", "1", 105, 3, 9, 3, 2.5]
+["2026-11-23", "Cena", "Aliño habitual", "1", 105, 3, 9, 3, 2.5],
+["2026-11-24", "Comida", "Pollo asado sin piel (½ pollo City Chicken)", "270 g", 460, 76, 16, 0, 1.8],
+["2026-11-24", "Comida", "Pan árabe", "150 g", 410, 13, 2.5, 83, 1.7],
+["2026-11-24", "Comida", "Mantequilla", "20 g", 145, 0.1, 16, 0.1, 0.3],
+["2026-11-24", "Cena", "Patata cocida", "300 g", 231, 6, 0.3, 51, 0],
+["2026-11-24", "Cena", "Brócoli", "200 g", 70, 5.6, 0.8, 8, 0.1],
+["2026-11-24", "Cena", "Tzatziki casero (yogur griego 2%, pepino, ajo, aceite)", "150 g", 138, 11.5, 7.4, 5.8, 0.6],
+["2026-11-24", "Cena", "Atún en aceite escurrido (½ lata)", "60 g", 115, 15, 6, 0, 0.5],
+["2026-11-24", "Cena", "Remolacha cocida", "300 g", 129, 4.8, 0.5, 26, 0.3],
+["2026-11-24", "Cena", "Feta", "50 g", 132, 7, 10.5, 0.5, 1.4],
+["2026-11-24", "Cena", "Cebolleta", "30 g", 10, 0.5, 0, 2, 0],
+["2026-11-24", "Cena", "Vinagre", "30 g", 6, 0, 0, 0.2, 0],
+["2026-11-24", "Cena", "Aceite de oliva", "5 g", 45, 0, 5, 0, 0]
 ]
