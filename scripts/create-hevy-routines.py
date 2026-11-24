@@ -71,12 +71,14 @@ def main():
             used.setdefault(norm(ex.get("title")), ex.get("exercise_template_id"))
     print(f"Distinct exercises in workout history: {len(used)}")
 
-    existing = {norm(r["title"]) for r in paged("/routines", "routines", 10)}
+    routines_live = paged("/routines", "routines", 10)
+    existing = {norm(r["title"]) for r in routines_live}
+    rid_by_title = {norm(r["title"]): r["id"] for r in routines_live}
     print(f"Existing routines: {len(existing)}")
 
     ok = True
     for r in spec["routines"]:
-        print(f"\n=== {r['title']} ===" + ("  [YA EXISTE → se omite]" if norm(r["title"]) in existing else ""))
+        print(f"\n=== {r['title']} ===" + (("  [EXISTE → se ACTUALIZA]" if r.get("update") else "  [YA EXISTE → se omite]") if norm(r["title"]) in existing else ""))
         for ex in r["exercises"]:
             tid, src = None, None
             for cand in ex["match"]:
@@ -103,7 +105,8 @@ def main():
 
     created_custom = {}
     for r in spec["routines"]:
-        if norm(r["title"]) in existing:
+        is_update = norm(r["title"]) in existing
+        if is_update and not r.get("update"):
             continue
         exercises = []
         for ex in r["exercises"]:
@@ -120,6 +123,12 @@ def main():
                 "rest_seconds": ex.get("rest_seconds"), "notes": ex.get("notes") or None,
                 "sets": [{"type": "normal", **s} for s in ex["sets"]],
             })
+        if is_update:
+            rid0 = rid_by_title[norm(r["title"])]
+            res = call("PUT", f"/routines/{rid0}", {"routine": {"title": r["title"],
+                                                     "notes": r.get("notes"), "exercises": exercises}})
+            print(f"Rutina ACTUALIZADA: {r['title']}")
+            continue
         res = call("POST", "/routines", {"routine": {"title": r["title"], "folder_id": None,
                                                      "notes": r.get("notes"), "exercises": exercises}})
         rid = res.get("id") or (res.get("routine") or [{}])
