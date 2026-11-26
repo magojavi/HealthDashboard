@@ -354,5 +354,16 @@
 ["2026-11-25", "Cena", "Chicken curry (indio)", "~350 g", 600, 38, 40, 15, 3.0],
 ["2026-11-25", "Cena", "Arroz basmati", "~250 g cocido", 325, 6, 1, 72, 0.3],
 ["2026-11-25", "Cena", "Garlic naan", "1 (~120 g)", 360, 10, 12, 52, 1.3],
-["2026-11-25", "Cena", "Pan de mantequilla (butter naan/paratha)", "1 (~100 g)", 330, 8, 14, 44, 1.0]
+["2026-11-25", "Cena", "Pan de mantequilla (butter naan/paratha)", "1 (~100 g)", 330, 8, 14, 44, 1.0],
+["2026-11-26", "Comida", "Ramen shoyu con pollo", "1 bol", 770, 65, 18, 73, 5.5],
+["2026-11-26", "Cena", "Lechuga iceberg", "1 entera", 60, 3, 0.3, 9, 0.1],
+["2026-11-26", "Cena", "Feta Patros leicht", "70 g", 154, 14, 10.5, 0.4, 1.9],
+["2026-11-26", "Cena", "Huevo duro", "1", 78, 6.5, 5.5, 0.6, 0.2],
+["2026-11-26", "Cena", "Aliño habitual", "1", 105, 3, 9, 3, 2.5],
+["2026-11-26", "Cena", "Patata cocida", "1 (~200 g)", 154, 4, 0.2, 34, 0],
+["2026-11-26", "Cena", "Alioli de yogur casero", "50 g", 40, 3.5, 1, 2.5, 0.3],
+["2026-11-26", "Cena", "Fiambre de pollo casero", "333 g", 500, 103, 10, 1, 1.7],
+["2026-11-26", "Postre", "Magerquark", "250 g", 168, 30, 0.5, 10, 0.2],
+["2026-11-26", "Postre", "Plátano", "1", 105, 1.3, 0.3, 27, 0],
+["2026-11-26", "Postre", "Mango", "150 g", 90, 1.2, 0.6, 22, 0]
 ]
