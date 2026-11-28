@@ -310,8 +310,7 @@
       }
      ]
     }
-   ],
-   "update": true
+   ]
   },
   {
    "title": "Día 2 v2",
@@ -591,6 +590,554 @@
        "duration_seconds": 45
       }
      ]
+    }
+   ]
+  },
+  {
+   "title": "Día 1 v3",
+   "notes": "Patrones: una pierna + tirar + empujar + bisagra a una pierna + máquinas pesadas + core. 8–12 reps (KB 8–15), sube peso tras 3×12. Cuello neutro, hombros abajo. Desde enero: añadir 5 min de pliometría al inicio (pogo jumps, skipping).",
+   "exercises": [
+    {
+     "match": [
+      "Sentadilla Búlgara (Mancuerna)",
+      "Bulgarian Split Squat (Dumbbell)",
+      "Dumbbell Bulgarian Split Squat",
+      "Bulgarian Split Squat"
+     ],
+     "rest_seconds": 90,
+     "notes": "8 kg por mancuerna, 10 por pierna; pie trasero en el banco",
+     "sets": [
+      {
+       "weight_kg": 8,
+       "reps": 10
+      },
+      {
+       "weight_kg": 8,
+       "reps": 10
+      },
+      {
+       "weight_kg": 8,
+       "reps": 10
+      }
+     ],
+     "custom": {
+      "title": "Sentadilla Búlgara (Mancuerna)",
+      "exercise_type": "weight_reps",
+      "equipment_category": "dumbbell",
+      "muscle_group": "quadriceps",
+      "other_muscles": [
+       "glutes",
+       "hamstrings"
+      ]
+     }
+    },
+    {
+     "match": [
+      "Remo Invertido en Anillas",
+      "Remo Invertido",
+      "Inverted Row",
+      "Ring Row"
+     ],
+     "rest_seconds": 90,
+     "notes": "Más horizontal = más difícil. Objetivo: dominada asistida",
+     "sets": [
+      {
+       "reps": 10
+      },
+      {
+       "reps": 10
+      },
+      {
+       "reps": 10
+      }
+     ],
+     "custom": {
+      "title": "Remo Invertido en Anillas",
+      "exercise_type": "bodyweight_reps",
+      "equipment_category": "suspension",
+      "muscle_group": "upper_back",
+      "other_muscles": [
+       "lats",
+       "biceps"
+      ]
+     }
+    },
+    {
+     "match": [
+      "Flexiones",
+      "Push Up"
+     ],
+     "rest_seconds": 60,
+     "notes": "Si molesta el cuello, sáltalo. Progresión: pies elevados",
+     "sets": [
+      {
+       "reps": 8
+      },
+      {
+       "reps": 8
+      },
+      {
+       "reps": 8
+      }
+     ],
+     "custom": {
+      "title": "Flexiones",
+      "exercise_type": "bodyweight_reps",
+      "equipment_category": "none",
+      "muscle_group": "chest",
+      "other_muscles": [
+       "triceps",
+       "shoulders"
+      ]
+     }
+    },
+    {
+     "match": [
+      "Peso Muerto Rumano a una Pierna (Pesa Rusa)",
+      "Single Leg Romanian Deadlift (Kettlebell)",
+      "Single Leg Romanian Deadlift (Dumbbell)",
+      "Single Leg Romanian Deadlift"
+     ],
+     "rest_seconds": 90,
+     "notes": "KB 12 kg en la mano contraria a la pierna de apoyo; espalda neutra",
+     "sets": [
+      {
+       "weight_kg": 12,
+       "reps": 10
+      },
+      {
+       "weight_kg": 12,
+       "reps": 10
+      },
+      {
+       "weight_kg": 12,
+       "reps": 10
+      }
+     ],
+     "custom": {
+      "title": "Peso Muerto Rumano a una Pierna (Pesa Rusa)",
+      "exercise_type": "weight_reps",
+      "equipment_category": "kettlebell",
+      "muscle_group": "hamstrings",
+      "other_muscles": [
+       "glutes",
+       "lower_back"
+      ]
+     }
+    },
+    {
+     "match": [
+      "Press de Piernas Sentado"
+     ],
+     "rest_seconds": 120,
+     "notes": "",
+     "sets": [
+      {
+       "weight_kg": 170,
+       "reps": 12
+      },
+      {
+       "weight_kg": 170,
+       "reps": 12
+      },
+      {
+       "weight_kg": 170,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Press de Pecho (Máquina)"
+     ],
+     "rest_seconds": 120,
+     "notes": "",
+     "sets": [
+      {
+       "weight_kg": 50,
+       "reps": 12
+      },
+      {
+       "weight_kg": 50,
+       "reps": 12
+      },
+      {
+       "weight_kg": 50,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Jalón al Pecho (Máquina)"
+     ],
+     "rest_seconds": 90,
+     "notes": "Baja los omóplatos antes de tirar",
+     "sets": [
+      {
+       "weight_kg": 70,
+       "reps": 12
+      },
+      {
+       "weight_kg": 70,
+       "reps": 12
+      },
+      {
+       "weight_kg": 70,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Curl de Piernas Acostado (Máquina)"
+     ],
+     "rest_seconds": 60,
+     "notes": "",
+     "sets": [
+      {
+       "weight_kg": 45,
+       "reps": 12
+      },
+      {
+       "weight_kg": 45,
+       "reps": 12
+      },
+      {
+       "weight_kg": 45,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Extensión de tríceps por encima de la cabeza (cable)"
+     ],
+     "rest_seconds": 60,
+     "notes": "",
+     "sets": [
+      {
+       "weight_kg": 25,
+       "reps": 12
+      },
+      {
+       "weight_kg": 25,
+       "reps": 12
+      },
+      {
+       "weight_kg": 25,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Dead Bug",
+      "Bicho Muerto"
+     ],
+     "rest_seconds": 60,
+     "notes": "10 por lado, lumbar pegada al suelo",
+     "sets": [
+      {
+       "reps": 10
+      },
+      {
+       "reps": 10
+      },
+      {
+       "reps": 10
+      }
+     ],
+     "custom": {
+      "title": "Dead Bug",
+      "exercise_type": "bodyweight_reps",
+      "equipment_category": "none",
+      "muscle_group": "abdominals",
+      "other_muscles": []
+     }
+    }
+   ]
+  },
+  {
+   "title": "Día 2 v3",
+   "notes": "Patrones: sentadilla + empuje en diagonal + zancada + bisagra + máquinas + escápulas + antirrotación. Tras curar la hemorroide: añadir swing KB. Desde enero: 5 min de pliometría al inicio.",
+   "exercises": [
+    {
+     "match": [
+      "Sentadilla Goblet (Pesa Rusa)",
+      "Goblet Squat (Kettlebell)",
+      "Goblet Squat"
+     ],
+     "rest_seconds": 90,
+     "notes": "KB pegada al pecho, codos abajo, sin encoger hombros",
+     "sets": [
+      {
+       "weight_kg": 16,
+       "reps": 10
+      },
+      {
+       "weight_kg": 16,
+       "reps": 10
+      },
+      {
+       "weight_kg": 16,
+       "reps": 10
+      }
+     ],
+     "custom": {
+      "title": "Sentadilla Goblet (Pesa Rusa)",
+      "exercise_type": "weight_reps",
+      "equipment_category": "kettlebell",
+      "muscle_group": "quadriceps",
+      "other_muscles": [
+       "glutes",
+       "abdominals"
+      ]
+     }
+    },
+    {
+     "match": [
+      "Press Landmine a una Mano",
+      "Single Arm Landmine Press",
+      "Landmine Press"
+     ],
+     "rest_seconds": 90,
+     "notes": "Ligero, 10 por lado. Sin landmine: press inclinado mancuernas agarre neutro",
+     "sets": [
+      {
+       "weight_kg": 10,
+       "reps": 10
+      },
+      {
+       "weight_kg": 10,
+       "reps": 10
+      },
+      {
+       "weight_kg": 10,
+       "reps": 10
+      }
+     ],
+     "custom": {
+      "title": "Press Landmine a una Mano",
+      "exercise_type": "weight_reps",
+      "equipment_category": "barbell",
+      "muscle_group": "shoulders",
+      "other_muscles": [
+       "chest",
+       "triceps"
+      ]
+     }
+    },
+    {
+     "match": [
+      "Zancada Inversa (Mancuerna)",
+      "Reverse Lunge (Dumbbell)"
+     ],
+     "rest_seconds": 90,
+     "notes": "8 kg por mancuerna, 10 por pierna",
+     "sets": [
+      {
+       "weight_kg": 8,
+       "reps": 10
+      },
+      {
+       "weight_kg": 8,
+       "reps": 10
+      },
+      {
+       "weight_kg": 8,
+       "reps": 10
+      }
+     ]
+    },
+    {
+     "match": [
+      "Peso Rumano + Remo"
+     ],
+     "rest_seconds": 90,
+     "notes": "Mirando al suelo, sin encoger",
+     "sets": [
+      {
+       "weight_kg": 20,
+       "reps": 10
+      },
+      {
+       "weight_kg": 20,
+       "reps": 10
+      },
+      {
+       "weight_kg": 20,
+       "reps": 10
+      }
+     ]
+    },
+    {
+     "match": [
+      "Extensión de Pierna"
+     ],
+     "rest_seconds": 90,
+     "notes": "",
+     "sets": [
+      {
+       "weight_kg": 65,
+       "reps": 12
+      },
+      {
+       "weight_kg": 65,
+       "reps": 12
+      },
+      {
+       "weight_kg": 65,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Remo Sentado (Máquina)"
+     ],
+     "rest_seconds": 90,
+     "notes": "Omóplatos abajo y atrás",
+     "sets": [
+      {
+       "weight_kg": 45,
+       "reps": 12
+      },
+      {
+       "weight_kg": 45,
+       "reps": 12
+      },
+      {
+       "weight_kg": 45,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Aperturas (Máquina)"
+     ],
+     "rest_seconds": 90,
+     "notes": "",
+     "sets": [
+      {
+       "weight_kg": 50,
+       "reps": 12
+      },
+      {
+       "weight_kg": 50,
+       "reps": 12
+      },
+      {
+       "weight_kg": 50,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Face Pull",
+      "Face Pull (Cable)",
+      "Jalón a la Cara"
+     ],
+     "rest_seconds": 60,
+     "notes": "Ligero, codos altos, sin encoger",
+     "sets": [
+      {
+       "weight_kg": 15,
+       "reps": 15
+      },
+      {
+       "weight_kg": 15,
+       "reps": 15
+      },
+      {
+       "weight_kg": 15,
+       "reps": 15
+      }
+     ],
+     "custom": {
+      "title": "Face Pull",
+      "exercise_type": "weight_reps",
+      "equipment_category": "machine",
+      "muscle_group": "shoulders",
+      "other_muscles": [
+       "upper_back",
+       "traps"
+      ]
+     }
+    },
+    {
+     "match": [
+      "Curl predicador (máquina)"
+     ],
+     "rest_seconds": 60,
+     "notes": "",
+     "sets": [
+      {
+       "weight_kg": 40,
+       "reps": 12
+      },
+      {
+       "weight_kg": 40,
+       "reps": 12
+      },
+      {
+       "weight_kg": 40,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Extensión de Espalda (Hiperextensión con peso)"
+     ],
+     "rest_seconds": 60,
+     "notes": "Fijo 15 kg",
+     "sets": [
+      {
+       "weight_kg": 15,
+       "reps": 12
+      },
+      {
+       "weight_kg": 15,
+       "reps": 12
+      },
+      {
+       "weight_kg": 15,
+       "reps": 12
+      }
+     ]
+    },
+    {
+     "match": [
+      "Press Pallof",
+      "Pallof Press",
+      "Pallof Press (Cable)"
+     ],
+     "rest_seconds": 60,
+     "notes": "10 por lado; aguanta 2 s con brazos estirados",
+     "sets": [
+      {
+       "weight_kg": 10,
+       "reps": 10
+      },
+      {
+       "weight_kg": 10,
+       "reps": 10
+      },
+      {
+       "weight_kg": 10,
+       "reps": 10
+      }
+     ],
+     "custom": {
+      "title": "Press Pallof",
+      "exercise_type": "weight_reps",
+      "equipment_category": "machine",
+      "muscle_group": "abdominals",
+      "other_muscles": []
+     }
     }
    ]
   }
